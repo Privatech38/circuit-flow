@@ -17,6 +17,7 @@ import {logicGateTypes} from "./components";
 const initialNodes: Node[] = [
   { id: 'n1', type: 'andGate', position: { x: 0, y: 0 }, data: { label: 'Node 1' } },
   { id: 'n2', type: 'orGate', position: { x: 0, y: 100 }, data: { label: 'Node 2' } },
+  { id: 'n3', type: 'xorGate', position: { x: 100, y: 100 }, data: { label: 'Node 3' } },
 ];
 const initialEdges: Edge[] = [{ id: 'n1-n2', source: 'n1', target: 'n2' }];
 
