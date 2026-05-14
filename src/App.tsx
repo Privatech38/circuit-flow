@@ -15,11 +15,15 @@ import {logicGateTypes} from "./components";
 // import './App.css'
 
 const initialNodes: Node[] = [
-  { id: 'n1', type: 'andGate', position: { x: 0, y: 0 }, data: { label: 'Node 1' } },
+  { id: 'n1', type: 'nandGate', position: { x: 0, y: 0 }, data: { label: 'Node 1' } },
   { id: 'n2', type: 'orGate', position: { x: 0, y: 100 }, data: { label: 'Node 2' } },
   { id: 'n3', type: 'xorGate', position: { x: 100, y: 100 }, data: { label: 'Node 3' } },
+  { id: 'n4', type: 'norGate', position: { x: 200, y: 100 }, data: { label: 'Node 4' } },
+  { id: 'n5', type: 'xnorGate', position: { x: 200, y: 0 }, data: { label: 'Node 5' } },
+  { id: 'n6', type: 'bufferGate', position: { x: 200, y: 200 }, data: {} },
+  { id: 'n7', type: 'notGate', position: { x: 0, y: 200 }, data: {} },
 ];
-const initialEdges: Edge[] = [{ id: 'n1-n2', source: 'n1', target: 'n2' }];
+const initialEdges: Edge[] = [{ id: 'n1-n2', source: 'n1', target: 'n2', type: 'step' }];
 
 function App() {
   const [nodes, setNodes] = useState(initialNodes);
