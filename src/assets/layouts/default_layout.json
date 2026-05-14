@@ -1,0 +1,106 @@
+{
+  "global": {
+    "tabEnablePopout": true,
+    "tabEnablePopoutFloatIcon": true,
+    "tabSetEnableCloseButton": true,
+    "tabSetMinWidth": 130,
+    "tabSetMinHeight": 100,
+    "tabSetEnableTabScrollbar": true,
+    "borderMinSize": 100,
+    "borderEnableTabScrollbar": true
+  },
+  "borders": [
+    {
+      "location": "bottom",
+      "type": "border",
+      "children": [
+        {
+          "type": "tab",
+          "name": "Output",
+          "component": "placeholder",
+          "enableClose": false
+        }
+      ]
+    },
+    {
+      "location": "left",
+      "type": "border",
+      "selected": 0,
+      "children": [
+        {
+          "type": "tab",
+          "name": "Components",
+          "component": "user sublayout",
+          "subLayoutId": "sublayout1",
+          "altName": "The Components Tab",
+          "enableClose": true,
+          "icon": "icons/category.svg"
+        }
+      ]
+    }
+  ],
+  "layout": {
+    "type": "row",
+    "children": [
+      {
+        "type": "row",
+        "weight": 33,
+        "children": [
+          {
+            "type": "tabset",
+            "weight": 50,
+            "children": [
+              {
+                "type": "tab",
+                "name": "Editor",
+                "component": "editor",
+                "enableWindowReMount": true,
+                "enableClose": false,
+                "enablePopoutOverlay": true
+              }
+            ],
+            "active": true
+          }
+        ]
+      }
+    ]
+  },
+  "subLayouts": {
+    "sublayout1": {
+      "type": "tab",
+      "layout": {
+        "type": "row",
+        "children": [
+          {
+            "type": "row",
+            "children": [
+              {
+                "type": "tabset",
+                "weight": 50,
+                "children": [
+                  {
+                    "type": "tab",
+                    "name": "Grid 1",
+                    "component": "placeholder"
+                  }
+                ],
+                "active": true
+              },
+              {
+                "type": "tabset",
+                "weight": 50,
+                "children": [
+                  {
+                    "type": "tab",
+                    "name": "Grid 1",
+                    "component": "placeholder"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
