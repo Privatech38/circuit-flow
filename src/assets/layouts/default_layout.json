@@ -25,15 +25,15 @@
     {
       "location": "left",
       "type": "border",
+      "size": 300,
       "selected": 0,
       "children": [
         {
           "type": "tab",
           "name": "Components",
-          "component": "user sublayout",
           "subLayoutId": "sublayout1",
           "altName": "The Components Tab",
-          "enableClose": true,
+          "enableClose": false,
           "icon": "icons/category.svg"
         }
       ]
@@ -81,7 +81,8 @@
                   {
                     "type": "tab",
                     "name": "Grid 1",
-                    "component": "placeholder"
+                    "component": "placeholder",
+                    "enableClose": false
                   }
                 ],
                 "active": true
@@ -93,7 +94,8 @@
                   {
                     "type": "tab",
                     "name": "Grid 1",
-                    "component": "placeholder"
+                    "component": "placeholder",
+                    "enableClose": false
                   }
                 ]
               }
