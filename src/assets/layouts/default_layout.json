@@ -81,7 +81,7 @@
                   {
                     "type": "tab",
                     "name": "Component tree",
-                    "component": "placeholder",
+                    "component": "componentTree",
                     "enableClose": false
                   }
                 ],
