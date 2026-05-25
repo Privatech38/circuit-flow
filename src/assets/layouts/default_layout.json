@@ -1,0 +1,108 @@
+{
+  "global": {
+    "tabEnablePopout": true,
+    "tabEnablePopoutFloatIcon": true,
+    "tabSetEnableCloseButton": true,
+    "tabSetMinWidth": 130,
+    "tabSetMinHeight": 100,
+    "tabSetEnableTabScrollbar": true,
+    "borderMinSize": 100,
+    "borderEnableTabScrollbar": true
+  },
+  "borders": [
+    {
+      "location": "bottom",
+      "type": "border",
+      "children": [
+        {
+          "type": "tab",
+          "name": "Output",
+          "component": "placeholder",
+          "enableClose": false
+        }
+      ]
+    },
+    {
+      "location": "left",
+      "type": "border",
+      "size": 300,
+      "selected": 0,
+      "children": [
+        {
+          "type": "tab",
+          "name": "Components",
+          "subLayoutId": "components_sublayout",
+          "altName": "The Components Tab",
+          "enableClose": false,
+          "icon": "icons/category.svg"
+        }
+      ]
+    }
+  ],
+  "layout": {
+    "type": "row",
+    "children": [
+      {
+        "type": "row",
+        "weight": 33,
+        "children": [
+          {
+            "type": "tabset",
+            "weight": 50,
+            "children": [
+              {
+                "type": "tab",
+                "name": "Editor",
+                "component": "editor",
+                "enableWindowReMount": true,
+                "enableClose": false,
+                "enablePopoutOverlay": true
+              }
+            ],
+            "active": true
+          }
+        ]
+      }
+    ]
+  },
+  "subLayouts": {
+    "components_sublayout": {
+      "type": "tab",
+      "layout": {
+        "type": "row",
+        "children": [
+          {
+            "type": "row",
+            "children": [
+              {
+                "type": "tabset",
+                "weight": 50,
+                "children": [
+                  {
+                    "type": "tab",
+                    "name": "Component tree",
+                    "component": "placeholder",
+                    "enableClose": false
+                  }
+                ],
+                "active": true
+              },
+              {
+                "type": "tabset",
+                "weight": 50,
+                "children": [
+                  {
+                    "type": "tab",
+                    "name": "Properties",
+                    "component": "placeholder",
+                    "enableClose": false
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
