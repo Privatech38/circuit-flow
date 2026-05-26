@@ -15,7 +15,7 @@ import {logicGateTypes} from "../components";
 // import './App.css'
 
 const initialNodes: Node[] = [
-    { id: 'n1', type: 'nandGate', position: { x: 0, y: 0 }, data: { label: 'Node 1' } },
+    { id: 'n1', type: 'andGate', position: { x: 0, y: 0 }, data: { label: 'Node 1' } },
     { id: 'n2', type: 'orGate', position: { x: 0, y: 100 }, data: { label: 'Node 2' } },
     { id: 'n3', type: 'xorGate', position: { x: 100, y: 100 }, data: { label: 'Node 3' } },
     { id: 'n4', type: 'norGate', position: { x: 200, y: 100 }, data: { label: 'Node 4' } },
