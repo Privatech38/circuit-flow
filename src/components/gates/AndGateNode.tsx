@@ -7,7 +7,7 @@ import andGateSVG from '../../assets/components/gates/AndGate.svg'
 export default function AndGateNode() {
     return (
         <div style={{position: 'relative', lineHeight: 0}}>
-            <img src={andGateSVG} alt="AND Gate" width={55} height={50} />
+            <img src={andGateSVG} alt="AND Gate" height={50} />
 
             {/* Input handles */}
             <Handle type="target" position={Position.Left} id="a" style={{top: '30%'}}/>
