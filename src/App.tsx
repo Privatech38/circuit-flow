@@ -3,6 +3,7 @@ import 'flexlayout-react/style/alpha_light.css';
 import modelJson from "./assets/layouts/default_layout.json";
 import EditorTab from "./editor/EditorTab.tsx";
 import ComponentTree from "./components/ComponentTree.tsx";
+import {ReactFlowProvider} from "@xyflow/react";
 
 const model = Model.fromJson(modelJson as IJsonModel);
 
@@ -24,9 +25,11 @@ function App() {
   }
 
   return (
-      <Layout
-          model={model}
-          factory={factory} />
+      <ReactFlowProvider>
+        <Layout
+            model={model}
+            factory={factory} />
+      </ReactFlowProvider>
   );
 }
 
