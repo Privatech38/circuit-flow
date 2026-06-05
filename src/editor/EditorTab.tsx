@@ -11,8 +11,14 @@ import {
     type Node, Controls, MiniMap, Background, BackgroundVariant
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import {logicGateTypes} from "../components";
+import {logicGateTypes} from "@/components/gates";
+import {inputTypes} from "@/components/input";
 // import './App.css'
+
+const nodeTypes = {
+    ...logicGateTypes,
+    ...inputTypes
+}
 
 const initialNodes: Node[] = [
     { id: 'n1', type: 'andGate', position: { x: 0, y: 0 }, data: { label: 'Node 1' } },
@@ -47,7 +53,7 @@ function EditorTab() {
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
-                nodeTypes={logicGateTypes}
+                nodeTypes={nodeTypes}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}

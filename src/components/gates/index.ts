@@ -1,11 +1,11 @@
-import AndGateNode from "./gates/AndGateNode.tsx";
-import OrGateNode from "./gates/OrGateNode.tsx";
-import XOrGateNode from "./gates/XOrGateNode.tsx";
-import NAndGateNode from "./gates/NAndGateNode.tsx";
-import NOrGateNode from "./gates/NORGateNode.tsx";
-import XNORGateNode from "./gates/XNORGateNode.tsx";
-import BufferGateNode from "./gates/BufferGateNode.tsx";
-import NotGateNode from "./gates/NotGateNode.tsx";
+import AndGateNode from "./AndGateNode.tsx";
+import OrGateNode from "./OrGateNode.tsx";
+import XOrGateNode from "./XOrGateNode.tsx";
+import NAndGateNode from "./NAndGateNode.tsx";
+import NOrGateNode from "./NORGateNode.tsx";
+import XNORGateNode from "./XNORGateNode.tsx";
+import BufferGateNode from "./BufferGateNode.tsx";
+import NotGateNode from "./NotGateNode.tsx";
 
 export const LogicGate = {
     BUFFER: "bufferGate",
