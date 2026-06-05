@@ -7,6 +7,19 @@ import XNORGateNode from "./gates/XNORGateNode.tsx";
 import BufferGateNode from "./gates/BufferGateNode.tsx";
 import NotGateNode from "./gates/NotGateNode.tsx";
 
+export const LogicGate = {
+    BUFFER: "bufferGate",
+    NOT: "notGate",
+    AND: "andGate",
+    NAND: "nandGate",
+    OR: "orGate",
+    NOR: "norGate",
+    XOR: "xorGate",
+    XNOR: "xnorGate",
+} as const;
+
+export type LogicGate = typeof LogicGate[keyof typeof LogicGate];
+
 export const logicGateTypes = {
     bufferGate: BufferGateNode,
     notGate: NotGateNode,

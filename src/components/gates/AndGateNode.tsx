@@ -2,18 +2,12 @@ import {
     Handle,
     Position
 } from '@xyflow/react';
+import andGateSVG from '../../assets/components/gates/AndGate.svg'
 
 export default function AndGateNode() {
     return (
         <div style={{position: 'relative', lineHeight: 0}}>
-            <svg width="55" height="50" viewBox="0 0 55 50">
-                <path
-                    d="M 1 1 L 30 1 A 24 24 0 0 1 30 49 L 1 49 Z"
-                    fill="white"
-                    stroke="black"
-                    strokeWidth="2"
-                />
-            </svg>
+            <img src={andGateSVG} alt="AND Gate" height={50} />
 
             {/* Input handles */}
             <Handle type="target" position={Position.Left} id="a" style={{top: '30%'}}/>

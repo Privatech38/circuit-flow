@@ -2,6 +2,8 @@ import {Layout, Model, type IJsonModel, TabNode} from "flexlayout-react";
 import 'flexlayout-react/style/alpha_light.css';
 import modelJson from "./assets/layouts/default_layout.json";
 import EditorTab from "./editor/EditorTab.tsx";
+import ComponentTree from "./components/ComponentTree.tsx";
+import {ReactFlowProvider} from "@xyflow/react";
 
 const model = Model.fromJson(modelJson as IJsonModel);
 
@@ -13,15 +15,21 @@ function App() {
       return EditorTab();
     }
 
+    if (component == "componentTree") {
+      return ComponentTree();
+    }
+
     if (component === "placeholder") {
       return <div>{node.getName()}</div>;
     }
   }
 
   return (
-      <Layout
-          model={model}
-          factory={factory} />
+      <ReactFlowProvider>
+        <Layout
+            model={model}
+            factory={factory} />
+      </ReactFlowProvider>
   );
 }
 
