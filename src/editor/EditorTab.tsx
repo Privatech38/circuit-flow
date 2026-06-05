@@ -8,7 +8,7 @@ import {
     type EdgeChange,
     type Connection,
     type Edge,
-    type Node, Controls, MiniMap, Background, BackgroundVariant
+    type Node, Controls, MiniMap, Background, BackgroundVariant, type DefaultEdgeOptions, ConnectionLineType
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import {logicGateTypes} from "@/components/gates";
@@ -18,6 +18,10 @@ import {inputTypes} from "@/components/input";
 const nodeTypes = {
     ...logicGateTypes,
     ...inputTypes
+}
+
+const defaultEdgeOptions: DefaultEdgeOptions = {
+    type: 'step',
 }
 
 const initialNodes: Node[] = [
@@ -58,6 +62,8 @@ function EditorTab() {
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 fitView
+                defaultEdgeOptions={defaultEdgeOptions}
+                connectionLineType={ConnectionLineType.Step}
             >
                 <Controls />
                 <MiniMap />
