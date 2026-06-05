@@ -21,7 +21,7 @@ const nodeTypes = {
 }
 
 const defaultEdgeOptions: DefaultEdgeOptions = {
-    type: 'step',
+    type: ConnectionLineType.Step,
 }
 
 const initialNodes: Node[] = [
