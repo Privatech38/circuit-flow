@@ -21,7 +21,7 @@ const nodeTypes = {
 }
 
 const defaultEdgeOptions: DefaultEdgeOptions = {
-    type: ConnectionLineType.Step,
+    type: ConnectionLineType.SmoothStep,
 }
 
 const initialNodes: Node[] = [
@@ -33,7 +33,7 @@ const initialNodes: Node[] = [
     { id: 'n6', type: 'bufferGate', position: { x: 200, y: 200 }, data: {} },
     { id: 'n7', type: 'notGate', position: { x: 0, y: 200 }, data: {} },
 ];
-const initialEdges: Edge[] = [{ id: 'n1-n2', source: 'n1', target: 'n2', type: 'step' }];
+const initialEdges: Edge[] = [{ id: 'n1-n2', source: 'n1', target: 'n2', type: ConnectionLineType.SmoothStep }];
 
 function EditorTab() {
     const [nodes, setNodes] = useState(initialNodes);
@@ -63,7 +63,7 @@ function EditorTab() {
                 onConnect={onConnect}
                 fitView
                 defaultEdgeOptions={defaultEdgeOptions}
-                connectionLineType={ConnectionLineType.Step}
+                connectionLineType={ConnectionLineType.SmoothStep}
             >
                 <Controls />
                 <MiniMap />
