@@ -8,11 +8,21 @@ import {
     type EdgeChange,
     type Connection,
     type Edge,
-    type Node, Controls, MiniMap, Background, BackgroundVariant
+    type Node, Controls, MiniMap, Background, BackgroundVariant, type DefaultEdgeOptions, ConnectionLineType
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import {logicGateTypes} from "../components";
+import {logicGateTypes} from "@/components/gates";
+import {inputTypes} from "@/components/input";
 // import './App.css'
+
+const nodeTypes = {
+    ...logicGateTypes,
+    ...inputTypes
+}
+
+const defaultEdgeOptions: DefaultEdgeOptions = {
+    type: ConnectionLineType.SmoothStep,
+}
 
 const initialNodes: Node[] = [
     { id: 'n1', type: 'andGate', position: { x: 0, y: 0 }, data: { label: 'Node 1' } },
@@ -23,7 +33,7 @@ const initialNodes: Node[] = [
     { id: 'n6', type: 'bufferGate', position: { x: 200, y: 200 }, data: {} },
     { id: 'n7', type: 'notGate', position: { x: 0, y: 200 }, data: {} },
 ];
-const initialEdges: Edge[] = [{ id: 'n1-n2', source: 'n1', target: 'n2', type: 'step' }];
+const initialEdges: Edge[] = [{ id: 'n1-n2', source: 'n1', target: 'n2', type: ConnectionLineType.SmoothStep }];
 
 function EditorTab() {
     const [nodes, setNodes] = useState(initialNodes);
@@ -47,11 +57,13 @@ function EditorTab() {
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
-                nodeTypes={logicGateTypes}
+                nodeTypes={nodeTypes}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 fitView
+                defaultEdgeOptions={defaultEdgeOptions}
+                connectionLineType={ConnectionLineType.SmoothStep}
             >
                 <Controls />
                 <MiniMap />
