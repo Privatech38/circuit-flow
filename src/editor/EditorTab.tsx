@@ -13,11 +13,13 @@ import {
 import '@xyflow/react/dist/style.css';
 import {logicGateTypes} from "@/components/gates";
 import {inputTypes} from "@/components/input";
+import {outputTypes} from "@/components/output";
 // import './App.css'
 
 const nodeTypes = {
     ...logicGateTypes,
-    ...inputTypes
+    ...inputTypes,
+    ...outputTypes,
 }
 
 const defaultEdgeOptions: DefaultEdgeOptions = {
