@@ -11,9 +11,9 @@ import {
     type Node, Controls, MiniMap, Background, BackgroundVariant, type DefaultEdgeOptions, ConnectionLineType
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import {logicGateTypes} from "@/components/gates";
-import {inputTypes} from "@/components/input";
-import {outputTypes} from "@/components/output";
+import {LogicGate, logicGateTypes} from "@/components/gates";
+import {Input, inputTypes} from "@/components/input";
+import {Output, outputTypes} from "@/components/output";
 // import './App.css'
 
 const nodeTypes = {
@@ -27,15 +27,17 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
 }
 
 const initialNodes: Node[] = [
-    { id: 'n1', type: 'andGate', position: { x: 0, y: 0 }, data: { label: 'Node 1' } },
-    { id: 'n2', type: 'orGate', position: { x: 0, y: 100 }, data: { label: 'Node 2' } },
-    { id: 'n3', type: 'xorGate', position: { x: 100, y: 100 }, data: { label: 'Node 3' } },
-    { id: 'n4', type: 'norGate', position: { x: 200, y: 100 }, data: { label: 'Node 4' } },
-    { id: 'n5', type: 'xnorGate', position: { x: 200, y: 0 }, data: { label: 'Node 5' } },
-    { id: 'n6', type: 'bufferGate', position: { x: 200, y: 200 }, data: {} },
-    { id: 'n7', type: 'notGate', position: { x: 0, y: 200 }, data: {} },
+    { id: 'clock1', type: Input.CLOCK, position: { x: 0, y: 0 }, data: {} },
+    { id: 'high1', type: Input.HIGH, position: { x: 0, y: 100 }, data: {} },
+    { id: 'gate1', type: LogicGate.AND, position: { x: 150, y: 50 }, data: {} },
+    { id: 'light1', type: Output.LIGHT, position: { x: 300, y: 50 }, data: {} },
 ];
-const initialEdges: Edge[] = [{ id: 'n1-n2', source: 'n1', target: 'n2', type: ConnectionLineType.SmoothStep }];
+
+const initialEdges: Edge[] = [
+    { id: 'clock1-gate1', source: 'clock1', target: 'gate1', type: ConnectionLineType.SmoothStep },
+    { id: 'high1-gate1', source: 'high1', target: 'gate1', targetHandle: 'b', type: ConnectionLineType.SmoothStep },
+    { id: 'gate1-light1', source: 'gate1', target: 'light1', type: ConnectionLineType.SmoothStep },
+];
 
 function EditorTab() {
     const [nodes, setNodes] = useState(initialNodes);
