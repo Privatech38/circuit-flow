@@ -33,7 +33,7 @@ function App() {
 
     const leftGroup = api.addEdgeGroup('left', {
       id: 'left-group',
-      initialSize: 320,
+      initialSize: 323,
       minimumSize: 180
     })
 

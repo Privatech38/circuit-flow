@@ -1,7 +1,7 @@
 #toolbar {
     --item-radius: 5px;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     justify-content: space-between;
     align-items: end;
 }
