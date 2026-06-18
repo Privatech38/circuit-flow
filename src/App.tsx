@@ -1,35 +1,61 @@
-import {Layout, Model, type IJsonModel, TabNode} from "flexlayout-react";
-import 'flexlayout-react/style/alpha_light.css';
-import modelJson from "./assets/layouts/default_layout.json";
+import 'dockview-react/dist/styles/dockview.css';
+import './App.css'
 import EditorTab from "./editor/EditorTab.tsx";
 import ComponentTree from "./components/ComponentTree.tsx";
+import Toolbar from "@/toolbar/Toolbar.tsx";
+import {
+  type DockviewApi,
+  DockviewReact,
+  type DockviewReadyEvent,
+  type IDockviewPanelProps,
+  themeLight
+} from "dockview-react";
 import {ReactFlowProvider} from "@xyflow/react";
 
-const model = Model.fromJson(modelJson as IJsonModel);
-
 function App() {
-  const factory = (node: TabNode) => {
-    const component = node.getComponent();
 
-    if (component == "editor") {
+  const components: Record<string, React.FunctionComponent<IDockviewPanelProps>> = {
+    editor: () => {
       return EditorTab();
-    }
-
-    if (component == "componentTree") {
+    },
+    componentTree: () => {
       return ComponentTree();
-    }
-
-    if (component === "placeholder") {
-      return <div>{node.getName()}</div>;
     }
   }
 
+  function onReady(event: DockviewReadyEvent) {
+    const api: DockviewApi = event.api;
+
+    api.addPanel({
+      id: 'editor',
+      component: 'editor'
+    })
+
+    const leftGroup = api.addEdgeGroup('left', {
+      id: 'left-group',
+      initialSize: 323,
+      minimumSize: 180
+    })
+
+    api.addPanel({
+      id: 'component-tree',
+      component: 'componentTree',
+      title: 'Component Tree',
+      position: { referenceGroup: leftGroup.id }
+    })
+  }
+
   return (
-      <ReactFlowProvider>
-        <Layout
-            model={model}
-            factory={factory} />
-      </ReactFlowProvider>
+      <div id='app'>
+        <ReactFlowProvider>
+          <Toolbar/>
+          <DockviewReact
+              theme={themeLight}
+              style={{ width: '100%', height: '100%' }}
+              components={components}
+              onReady={onReady}/>
+        </ReactFlowProvider>
+      </div>
   );
 }
 

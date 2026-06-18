@@ -1,0 +1,38 @@
+#toolbar {
+    --item-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.toolbar__item {
+    height: auto;
+    line-height: 0;
+    margin: 4px;
+    border-radius: 8px;
+}
+
+.toolbar__item span {
+    padding: 0;
+}
+
+.toolbar__item:hover {
+    background-color: lightgray;
+}
+
+.toolbar__button {
+    background: none;
+    border: none;
+    border-radius: var(--item-radius);
+    padding: 0;
+    line-height: 0;
+}
+
+.button_icon {
+    font-size: 36px;
+    font-variation-settings: 'wght' 200, 'opsz' 24;
+    transform: scale(1.4);
+}
+
+#simulate

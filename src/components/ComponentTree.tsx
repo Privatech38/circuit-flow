@@ -51,7 +51,7 @@ export default function ComponentTree() {
     );
 
     return (
-        <div style={{textAlign: 'left'}}>
+        <div style={{textAlign: 'left', padding: '10px'}}>
             <ComponentCategory label={"Inputs"}>
                 <ComponentItem componentID={Input.CLOCK} label={"Clock"} icon={ClockSVG} onDrop={handleNodeDrop}/>
                 <ComponentItem componentID={Input.HIGH} label={"High"} icon={HighSVG} onDrop={handleNodeDrop}/>
