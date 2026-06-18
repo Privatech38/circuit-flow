@@ -3,7 +3,14 @@ import './App.css'
 import EditorTab from "./editor/EditorTab.tsx";
 import ComponentTree from "./components/ComponentTree.tsx";
 import Toolbar from "@/toolbar/Toolbar.tsx";
-import {type DockviewApi, DockviewReact, type DockviewReadyEvent, type IDockviewPanelProps} from "dockview-react";
+import {
+  type DockviewApi,
+  DockviewReact,
+  type DockviewReadyEvent,
+  type IDockviewPanelProps,
+  themeLight
+} from "dockview-react";
+import {ReactFlowProvider} from "@xyflow/react";
 
 function App() {
 
@@ -24,17 +31,30 @@ function App() {
       component: 'editor'
     })
 
+    const leftGroup = api.addEdgeGroup('left', {
+      id: 'left-group',
+      initialSize: 320,
+      minimumSize: 180
+    })
 
+    api.addPanel({
+      id: 'component-tree',
+      component: 'componentTree',
+      title: 'Component Tree',
+      position: { referenceGroup: leftGroup.id }
+    })
   }
 
   return (
       <div id='app'>
-        <Toolbar/>
-        <DockviewReact
-            className="dockview-theme-light"
-            style={{ width: '100%', height: '100%' }}
-            components={components}
-            onReady={onReady}/>
+        <ReactFlowProvider>
+          <Toolbar/>
+          <DockviewReact
+              theme={themeLight}
+              style={{ width: '100%', height: '100%' }}
+              components={components}
+              onReady={onReady}/>
+        </ReactFlowProvider>
       </div>
   );
 }

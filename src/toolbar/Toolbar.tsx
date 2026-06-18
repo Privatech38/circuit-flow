@@ -2,8 +2,6 @@ import 'material-symbols/rounded.css'
 import './Toolbar.css'
 import type {ButtonHTMLAttributes} from "react";
 
-
-
 export default function Toolbar() {
 
     interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -13,7 +11,7 @@ export default function Toolbar() {
     return (
         <div id='toolbar'>
             <Item>
-                <Button id="toolbar-button">
+                <Button id="toolbar-button" title={'Run Simulation'}>
                     <span className="material-symbols-rounded button_icon" style={{ color: '#03C03C' }}>play_arrow</span>
                 </Button>
             </Item>
