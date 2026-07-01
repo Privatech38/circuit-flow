@@ -5,13 +5,13 @@ import {
 } from '@xyflow/react';
 import ClockSVG from '@assets/components/input/Clock.svg';
 import type {CircuitComponent} from "@/components/Component.ts";
-import {getNodeOutputState, setHandleOutput} from "@/simulation/WireManager.ts";
+import {getNodeOutputState, setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 
 export const Clock: CircuitComponent = {
     evaluate: (node: Node) => {
         // toggle the output state
         const current = getNodeOutputState(node).has("out");
-        setHandleOutput(node, "out", !current);
+        setHandleOutputUpdate(node, "out", !current);
     },
 
     component: () => (

@@ -6,7 +6,7 @@ import {
 import GateSVG from '../../assets/components/gates/NOrGate.svg'
 import type {CircuitComponent} from "@/components/Component.ts";
 import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
-import {setHandleOutput} from "@/simulation/WireManager.ts";
+import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 
 export const NOrGate: CircuitComponent = {
     evaluate: (node: Node) => {
@@ -15,7 +15,7 @@ export const NOrGate: CircuitComponent = {
 
         const output = !(isAOn || isBOn);
 
-        setHandleOutput(node, "out", output);
+        setHandleOutputUpdate(node, "out", output);
     },
 
     component: () => (

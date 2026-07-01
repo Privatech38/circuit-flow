@@ -4,7 +4,7 @@ import {
 } from '@xyflow/react';
 import GateSVG from '../../assets/components/gates/BufferGate.svg'
 import type {CircuitComponent} from "@/components/Component.ts";
-import {setHandleOutput} from "@/simulation/WireManager.ts";
+import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
 
 export const BufferGate: CircuitComponent = {
@@ -21,7 +21,7 @@ export const BufferGate: CircuitComponent = {
     ),
 
     evaluate: (node: Node) => {
-        setHandleOutput(node, "out", getHandleState(node, { id: "in" }));
+        setHandleOutputUpdate(node, "out", getHandleState(node, { id: "in" }));
     }
 
 }

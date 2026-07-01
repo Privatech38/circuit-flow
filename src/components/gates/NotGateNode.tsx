@@ -6,13 +6,13 @@ import {
 import GateSVG from '../../assets/components/gates/NotGate.svg'
 import type {CircuitComponent} from "@/components/Component.ts";
 import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
-import {setHandleOutput} from "@/simulation/WireManager.ts";
+import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 
 export const NotGate: CircuitComponent = {
     evaluate: (node: Node) => {
         const inState = getHandleState(node, { id: "in" });
         const output = !inState;
-        setHandleOutput(node, "out", output);
+        setHandleOutputUpdate(node, "out", output);
     },
 
     component: () => (

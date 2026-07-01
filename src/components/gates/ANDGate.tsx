@@ -5,7 +5,7 @@ import {
 import andGateSVG from '../../assets/components/gates/AndGate.svg'
 import type {CircuitComponent} from "@/components/Component.ts";
 import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
-import {setHandleOutput} from "@/simulation/WireManager.ts";
+import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 
 export const ANDGate: CircuitComponent = {
     evaluate: (node: Node) => {
@@ -14,7 +14,7 @@ export const ANDGate: CircuitComponent = {
 
         const output = isAOn && isBOn;
 
-        setHandleOutput(node, "out", output);
+        setHandleOutputUpdate(node, "out", output);
     },
 
     component: () => (
