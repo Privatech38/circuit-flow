@@ -14,6 +14,7 @@ import '@xyflow/react/dist/style.css';
 import {LogicGate, logicGateTypes} from "@/components/gates";
 import {Input, inputTypes} from "@/components/input";
 import {Output, outputTypes} from "@/components/output";
+import {setReactFlowInstance} from "@/simulation/ReactFlowUtils.ts";
 // import './App.css'
 
 const nodeTypes = {
@@ -65,6 +66,7 @@ function EditorTab() {
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
+                onInit={setReactFlowInstance}
                 fitView
                 defaultEdgeOptions={defaultEdgeOptions}
                 connectionLineType={ConnectionLineType.SmoothStep}

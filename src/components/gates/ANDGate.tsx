@@ -1,11 +1,23 @@
 import {
-    Handle,
+    Handle, type Node,
     Position
 } from '@xyflow/react';
 import andGateSVG from '../../assets/components/gates/AndGate.svg'
+import type {CircuitComponent} from "@/components/Component.ts";
+import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
+import {setHandleOutput} from "@/simulation/WireManager.ts";
 
-export default function AndGateNode() {
-    return (
+export const ANDGate: CircuitComponent = {
+    evaluate: (node: Node) => {
+        const isAOn = getHandleState(node, { id: "a" });
+        const isBOn = getHandleState(node, { id: "b" });
+
+        const output = isAOn && isBOn;
+
+        setHandleOutput(node, "out", output);
+    },
+
+    component: () => (
         <div style={{position: 'relative', lineHeight: 0}}>
             <img src={andGateSVG} alt="AND Gate" height={50} />
 
@@ -16,5 +28,5 @@ export default function AndGateNode() {
             {/* Output handle */}
             <Handle type="source" position={Position.Right} id="out"/>
         </div>
-    );
+    )
 }

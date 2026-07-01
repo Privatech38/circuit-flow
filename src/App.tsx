@@ -51,7 +51,6 @@ function App() {
           <Toolbar/>
           <DockviewReact
               theme={themeLight}
-              style={{ width: '100%', height: '100%' }}
               components={components}
               onReady={onReady}/>
         </ReactFlowProvider>
