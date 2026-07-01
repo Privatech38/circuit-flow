@@ -4,32 +4,20 @@ import {
 } from '@xyflow/react';
 import GateSVG from '../../assets/components/gates/NAndGate.svg'
 import type {CircuitComponent} from "@/components/Component.ts";
-import {JSX} from "react/jsx-runtime";
+import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
+import {setHandleOutput} from "@/simulation/WireManager.ts";
 
 export const NANDGate: CircuitComponent = {
-    component(): JSX.Element {
-        return (
-            <div style={{position: 'relative', lineHeight: 0}}>
-                <img src={GateSVG} alt={"NAND Gate"} height={50} />
+    evaluate: (node: Node) => {
+        const isAOn = getHandleState(node, { id: "a" });
+        const isBOn = getHandleState(node, { id: "b" });
 
-                {/* Input handles */}
-                <Handle type="target" position={Position.Left} id="a" style={{top: '30%'}}/>
-                <Handle type="target" position={Position.Left} id="b" style={{top: '70%'}}/>
+        const output = !(isAOn && isBOn);
 
-                {/* Output handle */}
-                <Handle type="source" position={Position.Right} id="out"/>
-            </div>
-        );
+        setHandleOutput(node, "out", output);
     },
 
-    evaluate(node: Node): void {
-
-    }
-
-}
-
-export default function NAndGateNode() {
-    return (
+    component: () => (
         <div style={{position: 'relative', lineHeight: 0}}>
             <img src={GateSVG} alt={"NAND Gate"} height={50} />
 
@@ -40,5 +28,5 @@ export default function NAndGateNode() {
             {/* Output handle */}
             <Handle type="source" position={Position.Right} id="out"/>
         </div>
-    );
+    )
 }

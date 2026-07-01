@@ -1,11 +1,21 @@
 import {
     Handle,
-    Position
+    Position,
+    type Node
 } from '@xyflow/react';
 import GateSVG from '../../assets/components/gates/NotGate.svg'
+import type {CircuitComponent} from "@/components/Component.ts";
+import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
+import {setHandleOutput} from "@/simulation/WireManager.ts";
 
-export default function NotGateNode() {
-    return (
+export const NotGate: CircuitComponent = {
+    evaluate: (node: Node) => {
+        const inState = getHandleState(node, { id: "in" });
+        const output = !inState;
+        setHandleOutput(node, "out", output);
+    },
+
+    component: () => (
         <div style={{position: 'relative', lineHeight: 0}}>
             <img src={GateSVG} alt={"Not Gate"} height={50} />
 
@@ -15,5 +25,5 @@ export default function NotGateNode() {
             {/* Output handle */}
             <Handle type="source" position={Position.Right} id="out"/>
         </div>
-    );
+    )
 }

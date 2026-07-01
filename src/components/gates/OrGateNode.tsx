@@ -1,11 +1,23 @@
 import {
     Handle,
-    Position
+    Position,
+    type Node
 } from '@xyflow/react';
 import GateSVG from '../../assets/components/gates/OrGate.svg'
+import type {CircuitComponent} from "@/components/Component.ts";
+import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
+import {setHandleOutput} from "@/simulation/WireManager.ts";
 
-export default function OrGateNode() {
-    return (
+export const OrGate: CircuitComponent = {
+    evaluate: (node: Node) => {
+        const isAOn = getHandleState(node, { id: "a" });
+        const isBOn = getHandleState(node, { id: "b" });
+
+        const output = isAOn || isBOn;
+        setHandleOutput(node, "out", output);
+    },
+
+    component: () => (
         <div style={{position: 'relative', lineHeight: 0}}>
             <img src={GateSVG} alt={"OR Gate"} height={50} />
 
@@ -16,5 +28,5 @@ export default function OrGateNode() {
             {/* Output handle */}
             <Handle type="source" position={Position.Right} id="out"/>
         </div>
-    );
+    )
 }
