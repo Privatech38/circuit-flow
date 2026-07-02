@@ -4,17 +4,17 @@ import {outputComponents} from "@/components/output";
 import {inputComponents} from "@/components/input";
 
 /**
- * A map containing node ID - interval ID pairs.
+ * A map containing node - interval ID pairs.
  */
-const intervals: Map<string, number> = new Map();
+export const intervals: Map<Node, number> = new Map();
 
-const nodeEvaluators = {
+export const nodeEvaluators = {
     ...logicGates,
     ...inputComponents,
     ...outputComponents,
 }
 
-type NodeType = keyof typeof nodeEvaluators;
+export type NodeType = keyof typeof nodeEvaluators;
 
 /**
  * Triggers an update on the specified node.

@@ -15,6 +15,7 @@ import {LogicGate, logicGateTypes} from "@/components/gates";
 import {Input, inputTypes} from "@/components/input";
 import {Output, outputTypes} from "@/components/output";
 import {setReactFlowInstance} from "@/simulation/ReactFlowUtils.ts";
+import {nodeEvaluators, type NodeType} from "@/simulation/EventQueue.ts";
 // import './App.css'
 
 const nodeTypes = {
@@ -45,9 +46,32 @@ function EditorTab() {
     const [edges, setEdges] = useState(initialEdges);
 
     const onNodesChange = useCallback(
-        (changes: NodeChange<Node>[]) => setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot)),
+        (changes: NodeChange<Node>[]) => {
+            setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot));
+            changes.filter((change) => change.type === "add").forEach((change) => {
+                const node = change.item;
+                if (node.type && node.type in nodeEvaluators) {
+                    const evaluator = nodeEvaluators[node.type as NodeType];
+                    if (evaluator.initialize) {
+                        evaluator.initialize(node);
+                    }
+                }
+            });
+        },
         [setNodes],
     );
+
+    const onNodesDelete = (nodes: Node[]) => {
+        nodes.forEach((node) => {
+            if (node.type && node.type in nodeEvaluators) {
+                const evaluator = nodeEvaluators[node.type as NodeType];
+                if (evaluator.remove) {
+                    evaluator.remove(node);
+                }
+            }
+        })
+    };
+
     const onEdgesChange = useCallback(
         (changes: EdgeChange<Edge>[]) => setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)),
         [setEdges],
@@ -64,6 +88,7 @@ function EditorTab() {
                 edges={edges}
                 nodeTypes={nodeTypes}
                 onNodesChange={onNodesChange}
+                onNodesDelete={onNodesDelete}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 onInit={setReactFlowInstance}
