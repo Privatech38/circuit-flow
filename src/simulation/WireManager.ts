@@ -71,5 +71,9 @@ export function setHandleOutputUpdate(node: Node | { id: string }, handleId: str
 }
 
 function updateEdgeStyle(edge: Edge, state: boolean) {
-
+    if (state) {
+        edge.className = "high";
+    } else {
+        edge.className = undefined;
+    }
 }

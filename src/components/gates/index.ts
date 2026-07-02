@@ -30,14 +30,3 @@ export const logicGateTypes = {
     xorGate: XOrGate.component,
     xnorGate: XNORGate.component,
 }
-
-export const logicGates = {
-    bufferGate: BufferGate,
-    notGate: NotGate,
-    andGate: ANDGate,
-    nandGate: NANDGate,
-    orGate: OrGate,
-    norGate: NOrGate,
-    xorGate: XOrGate,
-    xnorGate: XNORGate,
-}

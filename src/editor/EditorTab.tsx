@@ -15,7 +15,7 @@ import {LogicGate, logicGateTypes} from "@/components/gates";
 import {Input, inputTypes} from "@/components/input";
 import {Output, outputTypes} from "@/components/output";
 import {setReactFlowInstance} from "@/simulation/ReactFlowUtils.ts";
-import {nodeEvaluators, type NodeType} from "@/simulation/EventQueue.ts";
+import {componentRegistry, type ComponentType} from "@/components/ComponentRegistry.ts";
 // import './App.css'
 
 const nodeTypes = {
@@ -50,8 +50,8 @@ function EditorTab() {
             setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot));
             changes.filter((change) => change.type === "add").forEach((change) => {
                 const node = change.item;
-                if (node.type && node.type in nodeEvaluators) {
-                    const evaluator = nodeEvaluators[node.type as NodeType];
+                if (node.type && node.type in componentRegistry) {
+                    const evaluator = componentRegistry[node.type as ComponentType];
                     if (evaluator.initialize) {
                         evaluator.initialize(node);
                     }
@@ -63,10 +63,10 @@ function EditorTab() {
 
     const onNodesDelete = (nodes: Node[]) => {
         nodes.forEach((node) => {
-            if (node.type && node.type in nodeEvaluators) {
-                const evaluator = nodeEvaluators[node.type as NodeType];
-                if (evaluator.remove) {
-                    evaluator.remove(node);
+            if (node.type && node.type in componentRegistry) {
+                const component = componentRegistry[node.type as ComponentType];
+                if (component.remove) {
+                    component.remove(node);
                 }
             }
         })

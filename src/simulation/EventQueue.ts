@@ -1,20 +1,11 @@
 import type {Node} from "@xyflow/react";
-import {logicGates} from "@/components/gates";
-import {outputComponents} from "@/components/output";
-import {inputComponents} from "@/components/input";
+// import {componentRegistry, type ComponentType} from "@/components/ComponentRegistry.ts";
 
-/**
- * A map containing node - interval ID pairs.
- */
-export const intervals: Map<Node, number> = new Map();
+// interface Event {
+//     node: Node;
+// }
 
-export const nodeEvaluators = {
-    ...logicGates,
-    ...inputComponents,
-    ...outputComponents,
-}
-
-export type NodeType = keyof typeof nodeEvaluators;
+// const EventQueue: Event[] = [];
 
 /**
  * Triggers an update on the specified node.
@@ -23,8 +14,8 @@ export type NodeType = keyof typeof nodeEvaluators;
 export function triggerUpdate(node: Node) {
     if (!node.type)
         throw new Error("Type for node is undefined");
-    if (node.type in nodeEvaluators) {
-        const evaluator = nodeEvaluators[node.type as NodeType];
-        evaluator.evaluate(node);
-    }
+    // if (node.type in componentRegistry) {
+    //     const component = componentRegistry[node.type as ComponentType];
+    //     component.evaluate(node);
+    // }
 }

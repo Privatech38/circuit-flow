@@ -15,9 +15,3 @@ export const inputTypes = {
     high: High.component,
     low: Low.component
 }
-
-export const inputComponents = {
-    clock: Clock,
-    high: High,
-    low: Low
-}

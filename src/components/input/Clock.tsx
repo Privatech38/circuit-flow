@@ -6,11 +6,15 @@ import {
 import ClockSVG from '@assets/components/input/Clock.svg';
 import type {CircuitComponent, CircuitComponentProps} from "@/components/Component.ts";
 import {getNodeOutputState, setHandleOutputUpdate} from "@/simulation/WireManager.ts";
-import {intervals} from "@/simulation/EventQueue.ts";
 
 type ClockProps = CircuitComponentProps & {
     frequency: number;
 }
+
+/**
+ * A map containing node - interval ID pairs.
+ */
+const intervals: Map<Node, number> = new Map();
 
 export const Clock: CircuitComponent = {
     initialize: (node: Node) => {
