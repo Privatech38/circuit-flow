@@ -23,7 +23,8 @@
     "flexlayout-react": "^0.9.1",
     "material-symbols": "^0.45.1",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "yocto-queue": "^1.2.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
