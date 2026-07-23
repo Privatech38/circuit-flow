@@ -6,7 +6,9 @@ import {
 import ClockSVG from '@assets/components/input/Clock.svg';
 import type {CircuitComponent, CircuitComponentProps} from "@/components/Component.ts";
 import {getNodeOutputState, setHandleOutputUpdate} from "@/simulation/WireManager.ts";
+import {EventEmitter} from "eventemitter3";
 
+export const clockUpdateBus = new EventEmitter();
 type ClockProps = CircuitComponentProps & {
     frequency: number;
 }
@@ -24,7 +26,9 @@ export const Clock: CircuitComponent = {
         const frequency = data.frequency || 1; // Default frequency of 1 Hz
         const interval = 1000 / frequency; // Convert frequency to interval in milliseconds
         const intervalID = window.setInterval(() => {
+            ;
             Clock.evaluate(node);
+            clockUpdateBus.emit('stateChange');
         }, interval);
 
         intervals.set(node, intervalID);
@@ -42,6 +46,7 @@ export const Clock: CircuitComponent = {
         // toggle the output state
         const current = getNodeOutputState(node).has("out");
         setHandleOutputUpdate(node, "out", !current);
+        ;
     },
 
     component: () => (

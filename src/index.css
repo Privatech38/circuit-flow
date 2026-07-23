@@ -95,3 +95,14 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.react-flow__edge path.signal-high {
+  stroke: #00ff88;
+  animation: wire-pulse 0.4s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 4px #00ff88);
+}
+
+@keyframes wire-pulse {
+  from { opacity: 1; }
+  to   { opacity: 0.4; }
+}

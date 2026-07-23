@@ -36,7 +36,7 @@ const initialNodes: Node[] = [
 ];
 
 const initialEdges: Edge[] = [
-    { id: 'clock1-gate1', source: 'clock1', target: 'gate1', type: ConnectionLineType.SmoothStep },
+    { id: 'clock1-gate1', source: 'clock1', target: 'gate1', targetHandle: 'a', type: ConnectionLineType.SmoothStep },
     { id: 'high1-gate1', source: 'high1', target: 'gate1', targetHandle: 'b', type: ConnectionLineType.SmoothStep },
     { id: 'gate1-light1', source: 'gate1', target: 'light1', type: ConnectionLineType.SmoothStep },
 ];

@@ -9,9 +9,17 @@ import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
 
 export const Light: CircuitComponent = {
     evaluate: (node: Node) => {
-        // read input state so that event system can access it; visual update should be handled elsewhere
-        getHandleState(node, { id: "in" });
-        // no outputs to set
+        if (getHandleState(node, { id: "in" })) {
+            node.style = {
+                ...node.style,
+                fill: '#f00'
+            };
+        } else {
+            node.style = {
+                ...node.style,
+                fill: '#fff'
+            };
+        }
     },
 
     component: () => (

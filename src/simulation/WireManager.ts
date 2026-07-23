@@ -1,6 +1,6 @@
 import type {Edge, Node} from "@xyflow/react";
 import {getOutgoingEdges} from "@/simulation/ReactFlowUtils.ts";
-import {triggerUpdate} from "@/simulation/EventQueue.ts";
+import {EventQueue} from "@/simulation/EventQueue.ts";
 
 /**
  * A map containing all wires' current states.
@@ -11,6 +11,24 @@ export const WireState: Map<string, boolean> = new Map();
  * A map containing sets of active handle outputs for nodes.
  */
 const NodeOutputState: Map<string, Set<string>> = new Map();
+
+/**
+ * Returns the state of a wire
+ * @param node
+ * @param handleID
+ */
+export function getWireState(node: Node | { id: string }, handleID: string | null | undefined) {
+    const nodeState = NodeOutputState.get(node.id);
+    if (!nodeState) {
+        return false;
+    }
+
+    if (!handleID) {
+        return nodeState.size > 0;
+    }
+
+    return nodeState.has(handleID);
+}
 
 /**
  * Returns a set of all active output handle IDs for the specified Node.
@@ -47,7 +65,7 @@ export function setHandleOutput(node: Node | { id: string }, handleId: string, s
     if (handleState == state)
         return false;
 
-    if (handleState)
+    if (state)
         nodeOutputState.add(handleId);
     else
         nodeOutputState.delete(handleId);
@@ -61,19 +79,21 @@ export function setHandleOutput(node: Node | { id: string }, handleId: string, s
  * @param handleId The handle ID.
  * @param state The state where `true` is HIGH signal and `false` is LOW signal.
  */
-export function setHandleOutputUpdate(node: Node | { id: string }, handleId: string, state: boolean): void {
+export function setHandleOutputUpdate(node: Node, handleId: string, state: boolean): void {
     if (!setHandleOutput(node, handleId, state))
         return;
     for (const outgoingEdge of getOutgoingEdges(node, handleId)) {
-        triggerUpdate(outgoingEdge.node);
+        EventQueue.enqueue(outgoingEdge.node);
         updateEdgeStyle(outgoingEdge.edge, state);
     }
 }
 
 function updateEdgeStyle(edge: Edge, state: boolean) {
     if (state) {
-        edge.className = "high";
+        const el = document.querySelector(`[data-id="${edge.id}"] path`);
+        el?.classList.toggle('signal-high', state);
     } else {
-        edge.className = undefined;
+        const el = document.querySelector(`[data-id="${edge.id}"] path`);
+        el?.classList.toggle('signal-high', state);
     }
 }

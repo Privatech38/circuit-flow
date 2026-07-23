@@ -1,5 +1,5 @@
 import {type Node, type Edge, type ReactFlowInstance, type Handle} from '@xyflow/react'
-import {WireState} from "@/simulation/WireManager.ts";
+import {getWireState} from "@/simulation/WireManager.ts";
 
 let reactFlow: ReactFlowInstance | null = null;
 
@@ -32,9 +32,10 @@ export function getOutgoingEdges(
         return [];
     }
 
-    let edges = getReactFlowInstance().getEdges().filter((edge) => edge.source === node.id);
+    const allEdges = getReactFlowInstance().getEdges();
+    let edges = allEdges.filter((edge) => edge.source === node.id);
 
-    if (handleId)
+    if (edges.length > 1 && handleId)
         edges = edges.filter(edge => edge.sourceHandle === handleId);
 
     return edges.map((edge) => {
@@ -80,11 +81,10 @@ export function getHandleState(
         return false;
     }
 
-    let filteredEdges = getReactFlowInstance().getEdges();
+    let filteredEdges = getReactFlowInstance().getEdges().filter((edge) => edge.target === node.id);
     if (handle && handle.id) {
         filteredEdges = filteredEdges.filter((edge) => edge.targetHandle === handle.id);
     }
 
-    return filteredEdges.filter((edge) => edge.target === node.id)
-        .map(edge => WireState.get(edge.id)).includes(true);
+    return filteredEdges.map(edge => getWireState({ id: edge.source}, edge.sourceHandle)).includes(true);
 }

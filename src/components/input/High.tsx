@@ -9,6 +9,7 @@ import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 
 export const High: CircuitComponent = {
     evaluate: (node: Node) => {
+        console.log("Evaluating High node")
         setHandleOutputUpdate(node, "out", true);
     },
 
