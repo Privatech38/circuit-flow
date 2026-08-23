@@ -26,7 +26,6 @@ export const Clock: CircuitComponent = {
         const frequency = data.frequency || 1; // Default frequency of 1 Hz
         const interval = 1000 / frequency; // Convert frequency to interval in milliseconds
         const intervalID = window.setInterval(() => {
-            ;
             Clock.evaluate(node);
             clockUpdateBus.emit('stateChange');
         }, interval);
@@ -46,7 +45,6 @@ export const Clock: CircuitComponent = {
         // toggle the output state
         const current = getNodeOutputState(node).has("out");
         setHandleOutputUpdate(node, "out", !current);
-        ;
     },
 
     component: () => (

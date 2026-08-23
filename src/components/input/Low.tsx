@@ -8,6 +8,10 @@ import type {CircuitComponent} from "@/components/Component.ts";
 import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 
 export const Low: CircuitComponent = {
+    initialize: (node: Node) => {
+        Low.evaluate(node);
+    },
+
     evaluate: (node: Node) => {
         setHandleOutputUpdate(node, "out", false);
     },

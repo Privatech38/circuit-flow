@@ -88,7 +88,7 @@ export function setHandleOutputUpdate(node: Node, handleId: string, state: boole
     }
 }
 
-function updateEdgeStyle(edge: Edge, state: boolean) {
+export function updateEdgeStyle(edge: Edge | { id: string }, state: boolean) {
     if (state) {
         const el = document.querySelector(`[data-id="${edge.id}"] path`);
         el?.classList.toggle('signal-high', state);

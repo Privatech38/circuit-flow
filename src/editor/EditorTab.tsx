@@ -1,21 +1,24 @@
-import { useState, useCallback } from 'react'
+import {useState, useCallback} from 'react'
 import {
     ReactFlow,
     applyNodeChanges,
     applyEdgeChanges,
-    addEdge,
     type NodeChange,
     type EdgeChange,
     type Connection,
     type Edge,
-    type Node, Controls, MiniMap, Background, BackgroundVariant, type DefaultEdgeOptions, ConnectionLineType
+    type Node, Controls, MiniMap, Background, BackgroundVariant, type DefaultEdgeOptions, ConnectionLineType,
+    useReactFlow
 } from '@xyflow/react';
+import { getEdgeId } from '@xyflow/system';
 import '@xyflow/react/dist/style.css';
 import {LogicGate, logicGateTypes} from "@/components/gates";
 import {Input, inputTypes} from "@/components/input";
 import {Output, outputTypes} from "@/components/output";
 import {setReactFlowInstance} from "@/simulation/ReactFlowUtils.ts";
+import {getNodeOutputState, updateEdgeStyle} from "@/simulation/WireManager.ts";
 import {componentRegistry, type ComponentType} from "@/components/ComponentRegistry.ts";
+import {PoweredEdge} from "@/editor/PoweredEdge.tsx";
 // import './App.css'
 
 const nodeTypes = {
@@ -24,8 +27,12 @@ const nodeTypes = {
     ...outputTypes,
 }
 
+const edgeTypes = {
+    'powered-edge': PoweredEdge
+}
+
 const defaultEdgeOptions: DefaultEdgeOptions = {
-    type: ConnectionLineType.SmoothStep,
+    type: 'powered-edge',
 }
 
 const initialNodes: Node[] = [
@@ -36,14 +43,23 @@ const initialNodes: Node[] = [
 ];
 
 const initialEdges: Edge[] = [
-    { id: 'clock1-gate1', source: 'clock1', target: 'gate1', targetHandle: 'a', type: ConnectionLineType.SmoothStep },
-    { id: 'high1-gate1', source: 'high1', target: 'gate1', targetHandle: 'b', type: ConnectionLineType.SmoothStep },
-    { id: 'gate1-light1', source: 'gate1', target: 'light1', type: ConnectionLineType.SmoothStep },
+    { id: 'clock1-gate1', source: 'clock1', target: 'gate1', targetHandle: 'a', type: 'powered-edge' },
+    { id: 'high1-gate1', source: 'high1', target: 'gate1', targetHandle: 'b', type: 'powered-edge' },
+    { id: 'gate1-light1', source: 'gate1', target: 'light1', type: 'powered-edge' },
 ];
 
 function EditorTab() {
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
+
+    const { addEdges } = useReactFlow();
+
+    // useEffect(() => {
+    //     const lastEdge = edges.at(-1);
+    //     if (!lastEdge) return;
+    //     const nodeOutputState = getNodeOutputState({ id: lastEdge.source });
+    //     updateEdgeStyle(lastEdge, lastEdge.sourceHandle ? nodeOutputState.has(lastEdge.sourceHandle) : nodeOutputState.size > 0)
+    // }, [edges, setEdges])
 
     const onNodesChange = useCallback(
         (changes: NodeChange<Node>[]) => {
@@ -73,13 +89,27 @@ function EditorTab() {
     };
 
     const onEdgesChange = useCallback(
-        (changes: EdgeChange<Edge>[]) => setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot)),
+        (changes: EdgeChange<Edge>[]) => {
+            setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot))
+            for (const change of changes) {
+                if (change.type === "add") {
+                    const edge = change.item;
+                    const nodeOutputState = getNodeOutputState({ id: edge.source });
+                    updateEdgeStyle(edge, edge.sourceHandle ? nodeOutputState.has(edge.sourceHandle) : nodeOutputState.size > 0)
+                }
+            }
+        },
         [setEdges],
     );
-    const onConnect = useCallback(
-        (params: Connection) => setEdges((edgesSnapshot) => addEdge(params, edgesSnapshot)),
-        [setEdges],
-    );
+
+    const onConnect = (connection: Connection) => {
+        const newEdge = {
+            id: getEdgeId(connection),
+            ...connection,
+            type: 'powered-edge',
+        };
+        addEdges(newEdge);
+    }
 
     return (
         <div style={{ width: '100%', height: '100%' }}>
@@ -87,6 +117,7 @@ function EditorTab() {
                 nodes={nodes}
                 edges={edges}
                 nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
                 onNodesChange={onNodesChange}
                 onNodesDelete={onNodesDelete}
                 onEdgesChange={onEdgesChange}
