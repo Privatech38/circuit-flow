@@ -19,7 +19,7 @@
   "dependencies": {
     "@neodrag/react": "^2.3.1",
     "@xyflow/react": "^12.11.3",
-    "dockview-react": "^6.6.1",
+    "dockview-react": "^8.2.0",
     "eventemitter3": "^5.0.4",
     "flexlayout-react": "^0.10.5",
     "material-symbols": "^0.46.0",
