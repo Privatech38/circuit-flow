@@ -1,11 +1,11 @@
-import AndGateNode from "./AndGateNode.tsx";
-import OrGateNode from "./OrGateNode.tsx";
-import XOrGateNode from "./XOrGateNode.tsx";
-import NAndGateNode from "./NAndGateNode.tsx";
-import NOrGateNode from "./NORGateNode.tsx";
-import XNORGateNode from "./XNORGateNode.tsx";
-import BufferGateNode from "./BufferGateNode.tsx";
-import NotGateNode from "./NotGateNode.tsx";
+import {ANDGate} from "./ANDGate.tsx";
+import {OrGate} from "./OrGateNode.tsx";
+import {XOrGate} from "./XOrGateNode.tsx";
+import {NANDGate} from "./NANDGate.tsx";
+import {NOrGate} from "./NORGateNode.tsx";
+import {XNORGate} from "./XNORGateNode.tsx";
+import {BufferGate} from "./BufferGate.tsx";
+import {NotGate} from "./NotGateNode.tsx";
 
 export const LogicGate = {
     BUFFER: "bufferGate",
@@ -21,12 +21,12 @@ export const LogicGate = {
 export type LogicGate = typeof LogicGate[keyof typeof LogicGate];
 
 export const logicGateTypes = {
-    bufferGate: BufferGateNode,
-    notGate: NotGateNode,
-    andGate: AndGateNode,
-    nandGate: NAndGateNode,
-    orGate: OrGateNode,
-    norGate: NOrGateNode,
-    xorGate: XOrGateNode,
-    xnorGate: XNORGateNode,
+    bufferGate: BufferGate.component,
+    notGate: NotGate.component,
+    andGate: ANDGate.component,
+    nandGate: NANDGate.component,
+    orGate: OrGate.component,
+    norGate: NOrGate.component,
+    xorGate: XOrGate.component,
+    xnorGate: XNORGate.component,
 }

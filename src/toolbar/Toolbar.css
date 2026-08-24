@@ -2,14 +2,15 @@
     --item-radius: 5px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: end;
     align-items: end;
+    padding: 0 1em;
 }
 
 .toolbar__item {
     height: auto;
     line-height: 0;
-    margin: 4px;
+    margin: 4px 2px;
     border-radius: 8px;
 }
 

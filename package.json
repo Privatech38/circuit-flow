@@ -20,10 +20,12 @@
     "@neodrag/react": "^2.3.1",
     "@xyflow/react": "^12.10.2",
     "dockview-react": "^6.6.1",
+    "eventemitter3": "^5.0.4",
     "flexlayout-react": "^0.9.1",
     "material-symbols": "^0.45.1",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "yocto-queue": "^1.2.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
