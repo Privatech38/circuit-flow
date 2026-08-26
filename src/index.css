@@ -102,6 +102,15 @@ code {
   filter: drop-shadow(0 0 4px #00ff88);
 }
 
+.light-bulb {
+  fill: #fff;
+  transition: fill 0.15s ease;
+}
+
+.light-bulb.signal-high {
+  fill: #f00;
+}
+
 @keyframes wire-pulse {
   from { opacity: 1; }
   to   { opacity: 0.4; }
