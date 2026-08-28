@@ -74,6 +74,7 @@ export default function ComponentTree() {
             </ComponentCategory>
             <ComponentCategory label={"Multiplexers"}>
                 <ComponentItem componentID={MultiplexerType.MUX} label={"MUX"} icon={MultiplexerSVG} onDrop={handleNodeDrop}/>
+                <ComponentItem componentID={MultiplexerType.DMUX} label={"DMUX"} icon={MultiplexerSVG} flip onDrop={handleNodeDrop}/>
             </ComponentCategory>
         </div>
     )
@@ -89,7 +90,7 @@ export default function ComponentTree() {
         )
     }
 
-    function ComponentItem({componentID, label, icon: Icon, onDrop}: ComponentItemProps) {
+    function ComponentItem({componentID, label, icon: Icon, flip, onDrop}: ComponentItemProps) {
         const draggableRef = useRef<HTMLDivElement>(null!);
         const [position, setPosition] = useState<XYPosition>({ x: 0, y: 0 });
 
@@ -113,7 +114,7 @@ export default function ComponentTree() {
 
         return (
             <div className="component-item" aria-label={label} ref={draggableRef} style={{ zIndex: 200}}>
-                <div className="component-item__icon" aria-hidden="true">
+                <div className="component-item__icon" aria-hidden="true" style={flip ? {transform: 'scaleX(-1)'} : undefined}>
                     <Icon/>
                 </div>
                 <div className="component-item__label">{label}</div>
@@ -131,5 +132,6 @@ interface ComponentItemProps {
     componentID: string;
     label: string;
     icon: ComponentType<SVGProps<SVGSVGElement>>
+    flip?: boolean;
     onDrop: (nodeId: string, position: XYPosition) => void
 }
