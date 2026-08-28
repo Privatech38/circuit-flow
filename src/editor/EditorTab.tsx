@@ -42,9 +42,9 @@ const initialNodes: Node[] = [
 ];
 
 const initialEdges: Edge[] = [
-    {id: 'clock1-gate1', source: 'clock1', target: 'gate1', targetHandle: 'a', type: 'powered-edge'},
-    {id: 'high1-gate1', source: 'high1', target: 'gate1', targetHandle: 'b', type: 'powered-edge'},
-    {id: 'gate1-light1', source: 'gate1', target: 'light1', type: 'powered-edge'},
+    {id: 'clock1-gate1', source: 'clock1', sourceHandle: 'out', target: 'gate1', targetHandle: 'a', type: 'powered-edge'},
+    {id: 'high1-gate1', source: 'high1', sourceHandle: 'out', target: 'gate1', targetHandle: 'b', type: 'powered-edge'},
+    {id: 'gate1-light1', source: 'gate1', sourceHandle: 'out', target: 'light1', type: 'powered-edge'},
 ];
 
 function EditorTab() {

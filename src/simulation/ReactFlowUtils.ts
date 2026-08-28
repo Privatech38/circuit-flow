@@ -35,7 +35,7 @@ export function getOutgoingEdges(
     const allEdges = getReactFlowInstance().getEdges();
     let edges = allEdges.filter((edge) => edge.source === node.id);
 
-    if (edges.length > 1 && handleId)
+    if (handleId)
         edges = edges.filter(edge => edge.sourceHandle === handleId);
 
     return edges.map((edge) => {
