@@ -1,10 +1,8 @@
 import {
     Handle,
     Position,
-    useNodeId,
-    useNodesData,
-    useReactFlow,
-    type Node
+    type Node,
+    type NodeProps
 } from '@xyflow/react';
 import type {CircuitComponent, CircuitComponentProps} from "@/components/Component.ts";
 import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
@@ -34,12 +32,10 @@ function clampSelectBits(value: number | undefined): number {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components -- CircuitComponent bundles data (evaluate) and the component together, so this file can't be component-only
-function MultiplexerNode() {
-    const nodeId = useNodeId();
-    const nodeData = useNodesData<Node>(nodeId ?? "");
-    const {updateNodeData} = useReactFlow();
+function MultiplexerNode(props?: NodeProps) {
+    const nodeData = props?.data as MultiplexerProps | undefined;
 
-    const selectBits = clampSelectBits((nodeData?.data as MultiplexerProps | undefined)?.selectBits);
+    const selectBits = clampSelectBits(nodeData?.selectBits);
     const numInputs = 2 ** selectBits;
 
     const width = Math.max(MIN_WIDTH, HORIZONTAL_PADDING * 2 + (selectBits - 1) * HORIZONTAL_SPACING);
@@ -52,11 +48,6 @@ function MultiplexerNode() {
 
     const inputPaddingPercentage = VERTICAL_PADDING / height * 100;
     const inputPercentage = 100 - 2 * inputPaddingPercentage;
-
-    const changeSelectBits = (delta: number) => {
-        if (!nodeId) return;
-        updateNodeData(nodeId, {selectBits: clampSelectBits(selectBits + delta)});
-    };
 
     return (
         <div style={{position: 'relative', width: width, height}}>
@@ -104,26 +95,6 @@ function MultiplexerNode() {
                 id="out"
                 style={{top: `50%`}}
             />
-
-             {/*Select-bit count controls*/}
-            <div
-                className="nodrag"
-                style={{
-                    position: 'absolute',
-                    top: -22,
-                    left: 0,
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 4,
-                    fontSize: 10,
-                }}
-            >
-                <button onClick={() => changeSelectBits(-1)} disabled={selectBits <= MIN_SELECT_BITS}>-</button>
-                <span>{selectBits} sel</span>
-                <button onClick={() => changeSelectBits(1)} disabled={selectBits >= MAX_SELECT_BITS}>+</button>
-            </div>
         </div>
     );
 }
