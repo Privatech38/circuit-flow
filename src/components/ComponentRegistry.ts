@@ -10,6 +10,7 @@ import {Clock} from "@/components/input/Clock.tsx";
 import {High} from "@/components/input/High.tsx";
 import {Low} from "@/components/input/Low.tsx";
 import {Light} from "@/components/output/Light.tsx";
+import {Multiplexer} from "@/components/multiplexer/Multiplexer.tsx";
 
 export const componentRegistry = {
     // Gates
@@ -27,6 +28,8 @@ export const componentRegistry = {
     low: Low,
     // Output
     light: Light,
+    // Multiplexer
+    multiplexer: Multiplexer,
 }
 
 export type ComponentType = keyof typeof componentRegistry;
