@@ -14,10 +14,12 @@ import NANDGateSVG from '../assets/components/gates/NAndGate.svg?react';
 import NORGateSVG from '../assets/components/gates/NOrGate.svg?react';
 import XORGateSVG from '../assets/components/gates/XOrGate.svg?react';
 import XNORGateSVG from '../assets/components/gates/XNOrGate.svg?react';
+import MultiplexerSVG from '../assets/components/multiplexer/Multiplexer.svg?react';
 import './ComponentTree.css';
 import {LogicGate} from "./gates";
 import {Output} from "@/components/output";
 import {Input} from "@/components/input";
+import {MultiplexerType} from "@/components/multiplexer";
 
 export default function ComponentTree() {
     const {setNodes, screenToFlowPosition} = useReactFlow();
@@ -70,6 +72,10 @@ export default function ComponentTree() {
                 <ComponentItem componentID={LogicGate.XOR} label={"XOR"} icon={XORGateSVG} onDrop={handleNodeDrop}/>
                 <ComponentItem componentID={LogicGate.XNOR} label={"XNOR"} icon={XNORGateSVG} onDrop={handleNodeDrop}/>
             </ComponentCategory>
+            <ComponentCategory label={"Multiplexers"}>
+                <ComponentItem componentID={MultiplexerType.MUX} label={"MUX"} icon={MultiplexerSVG} onDrop={handleNodeDrop}/>
+                <ComponentItem componentID={MultiplexerType.DMUX} label={"DMUX"} icon={MultiplexerSVG} flip onDrop={handleNodeDrop}/>
+            </ComponentCategory>
         </div>
     )
 
@@ -84,7 +90,7 @@ export default function ComponentTree() {
         )
     }
 
-    function ComponentItem({componentID, label, icon: Icon, onDrop}: ComponentItemProps) {
+    function ComponentItem({componentID, label, icon: Icon, flip, onDrop}: ComponentItemProps) {
         const draggableRef = useRef<HTMLDivElement>(null!);
         const [position, setPosition] = useState<XYPosition>({ x: 0, y: 0 });
 
@@ -108,7 +114,7 @@ export default function ComponentTree() {
 
         return (
             <div className="component-item" aria-label={label} ref={draggableRef} style={{ zIndex: 200}}>
-                <div className="component-item__icon" aria-hidden="true">
+                <div className="component-item__icon" aria-hidden="true" style={flip ? {transform: 'scaleX(-1)'} : undefined}>
                     <Icon/>
                 </div>
                 <div className="component-item__label">{label}</div>
@@ -126,5 +132,6 @@ interface ComponentItemProps {
     componentID: string;
     label: string;
     icon: ComponentType<SVGProps<SVGSVGElement>>
+    flip?: boolean;
     onDrop: (nodeId: string, position: XYPosition) => void
 }

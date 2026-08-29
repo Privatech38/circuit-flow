@@ -15,6 +15,7 @@ import '@xyflow/react/dist/style.css';
 import {LogicGate, logicGateTypes} from "@/components/gates";
 import {Input, inputTypes} from "@/components/input";
 import {Output, outputTypes} from "@/components/output";
+import {multiplexerTypes} from "@/components/multiplexer";
 import {setReactFlowInstance} from "@/simulation/ReactFlowUtils.ts";
 import {getNodeOutputState, updateEdgeStyle} from "@/simulation/WireManager.ts";
 import {componentRegistry, type ComponentType} from "@/components/ComponentRegistry.ts";
@@ -24,6 +25,7 @@ const nodeTypes = {
     ...logicGateTypes,
     ...inputTypes,
     ...outputTypes,
+    ...multiplexerTypes,
 }
 
 const edgeTypes = {
