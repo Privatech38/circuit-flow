@@ -16,10 +16,12 @@ import {LogicGate, logicGateTypes} from "@/components/gates";
 import {Input, inputTypes} from "@/components/input";
 import {Output, outputTypes} from "@/components/output";
 import {multiplexerTypes} from "@/components/multiplexer";
-import {setReactFlowInstance} from "@/simulation/ReactFlowUtils.ts";
+import {syncSimulationEdges, syncSimulationNodes} from "@/simulation/ReactFlowUtils.ts";
 import {getNodeOutputState, updateEdgeStyle} from "@/simulation/WireManager.ts";
 import {componentRegistry, type ComponentType} from "@/components/ComponentRegistry.ts";
 import {PoweredEdge} from "@/editor/PoweredEdge.tsx";
+import {EventQueue} from "@/simulation/EventQueue.ts";
+import {stepSimulation} from "@/simulation/SimulationManager.ts";
 
 const nodeTypes = {
     ...logicGateTypes,
@@ -53,11 +55,21 @@ function EditorTab() {
     const [nodes, setNodes] = useState(initialNodes);
     const [edges, setEdges] = useState(initialEdges);
 
-    const {addEdges} = useReactFlow();
+    // Keep the simulation's view of the graph in sync with the latest committed render.
+    // React Flow's own store only picks up controlled nodes/edges props in a useEffect,
+    // which runs too late for handlers that step the simulation synchronously (see below).
+    syncSimulationNodes(nodes);
+    syncSimulationEdges(edges);
+
+    const {addEdges, getNode} = useReactFlow();
 
     const onNodesChange = useCallback(
         (changes: NodeChange<Node>[]) => {
-            setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot));
+            setNodes((nodesSnapshot) => {
+                const nextNodes = applyNodeChanges(changes, nodesSnapshot);
+                syncSimulationNodes(nextNodes);
+                return nextNodes;
+            });
             changes.filter((change) => change.type === "add").forEach((change) => {
                 const node = change.item;
                 if (node.type && node.type in componentRegistry) {
@@ -84,16 +96,43 @@ function EditorTab() {
 
     const onEdgesChange = useCallback(
         (changes: EdgeChange<Edge>[]) => {
-            setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot))
+            const removedEdges: Edge[] = [];
+            setEdges((edgesSnapshot) => {
+                for (const change of changes) {
+                    if (change.type === "remove") {
+                        const removedEdge = edgesSnapshot.find((edge) => edge.id === change.id);
+                        if (removedEdge) {
+                            removedEdges.push(removedEdge);
+                        }
+                    }
+                }
+                const nextEdges = applyEdgeChanges(changes, edgesSnapshot);
+                syncSimulationEdges(nextEdges);
+                return nextEdges;
+            });
             for (const change of changes) {
                 if (change.type === "add") {
                     const edge = change.item;
                     const nodeOutputState = getNodeOutputState({id: edge.source});
                     updateEdgeStyle(edge, edge.sourceHandle ? nodeOutputState.has(edge.sourceHandle) : nodeOutputState.size > 0)
+                    const targetNode = getNode(edge.target);
+                    if (targetNode) {
+                        EventQueue.enqueue(targetNode);
+                        stepSimulation();
+                    }
+                }
+            }
+            // A removed edge may have been a target node's only HIGH source, so re-evaluate it now
+            // that the graph no longer includes that wire, instead of leaving its last state stuck.
+            for (const edge of removedEdges) {
+                const targetNode = getNode(edge.target);
+                if (targetNode) {
+                    EventQueue.enqueue(targetNode);
+                    stepSimulation();
                 }
             }
         },
-        [setEdges],
+        [setEdges, getNode],
     );
 
     const onConnect = (connection: Connection) => {
@@ -116,7 +155,6 @@ function EditorTab() {
                 onNodesDelete={onNodesDelete}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
-                onInit={setReactFlowInstance}
                 fitView
                 defaultEdgeOptions={defaultEdgeOptions}
                 connectionLineType={ConnectionLineType.SmoothStep}

@@ -1,4 +1,4 @@
-import {getReactFlowInstance} from "@/simulation/ReactFlowUtils.ts";
+import {getSimulationNodes} from "@/simulation/ReactFlowUtils.ts";
 import {inputTypes} from "@/components/input";
 import type {Node} from "@xyflow/react";
 import {EventQueue} from "@/simulation/EventQueue.ts";
@@ -9,7 +9,7 @@ import {clockUpdateBus} from "@/components/input/Clock.tsx";
  * Returns a list of all input nodes in the current React Flow instance.
  */
 function getInputNodes(): Node[] {
-    return getReactFlowInstance().getNodes().filter(node => node.type && node.type in inputTypes);
+    return getSimulationNodes().filter(node => node.type && node.type in inputTypes);
 }
 
 clockUpdateBus.on('stateChange', () => {
@@ -18,7 +18,7 @@ clockUpdateBus.on('stateChange', () => {
 
 export function startSimulation() {
 
-    getReactFlowInstance().getNodes().forEach(node => {
+    getSimulationNodes().forEach(node => {
         if (!node.type)
             return;
         const evaluator = componentRegistry[node.type as ComponentType];

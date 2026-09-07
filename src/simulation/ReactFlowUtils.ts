@@ -1,17 +1,31 @@
-import {type Node, type Edge, type ReactFlowInstance, type Handle} from '@xyflow/react'
+import {type Edge, type Handle, type Node} from '@xyflow/react'
 import {getWireState} from "@/simulation/WireManager.ts";
 
-let reactFlow: ReactFlowInstance | null = null;
+/*
+ * React Flow's internal store only syncs with the controlled `nodes`/`edges` props via a
+ * useEffect, which runs *after* the change handler that triggered it has already returned.
+ * That means an edge/node added via onNodesChange/onEdgesChange is not yet visible through
+ * `getReactFlowInstance().getNodes()/getEdges()` while the simulation is stepped synchronously
+ * inside that same handler. These two arrays are the simulation's own up-to-date view of the
+ * graph; EditorTab keeps them in sync explicitly whenever it computes a new nodes/edges array.
+ */
+let simulationNodes: Node[] = [];
+let simulationEdges: Edge[] = [];
 
-export function setReactFlowInstance(instance: ReactFlowInstance) {
-    reactFlow = instance;
+export function syncSimulationNodes(nodes: Node[]) {
+    simulationNodes = nodes;
 }
 
-export function getReactFlowInstance(): ReactFlowInstance {
-    if (!reactFlow) {
-        throw new Error('ReactFlow instance accessed before initialization');
-    }
-    return reactFlow;
+export function syncSimulationEdges(edges: Edge[]) {
+    simulationEdges = edges;
+}
+
+export function getSimulationNodes(): Node[] {
+    return simulationNodes;
+}
+
+export function getSimulationEdges(): Edge[] {
+    return simulationEdges;
 }
 
 export interface EdgeNodePair {
@@ -32,14 +46,13 @@ export function getOutgoingEdges(
         return [];
     }
 
-    const allEdges = getReactFlowInstance().getEdges();
-    let edges = allEdges.filter((edge) => edge.source === node.id);
+    let edges = simulationEdges.filter((edge) => edge.source === node.id);
 
     if (handleId)
         edges = edges.filter(edge => edge.sourceHandle === handleId);
 
     return edges.map((edge) => {
-        const targetNode = getReactFlowInstance().getNodes().find((n) => n.id === edge.target);
+        const targetNode = simulationNodes.find((n) => n.id === edge.target);
         return {
             edge: edge,
             node: targetNode!
@@ -60,7 +73,7 @@ export function getIncomingEdges(
         return [];
     }
 
-    let filteredEdges = getReactFlowInstance().getEdges();
+    let filteredEdges = simulationEdges;
     if (handle && handle.id) {
         filteredEdges = filteredEdges.filter((edge) => edge.targetHandle === handle.id);
     }
@@ -81,7 +94,7 @@ export function getHandleState(
         return false;
     }
 
-    let filteredEdges = getReactFlowInstance().getEdges().filter((edge) => edge.target === node.id);
+    let filteredEdges = simulationEdges.filter((edge) => edge.target === node.id);
     if (handle && handle.id) {
         filteredEdges = filteredEdges.filter((edge) => edge.targetHandle === handle.id);
     }
