@@ -72,8 +72,8 @@ export function stepSimulation() {
 
 export function stopSimulation() {
     applyOnAllNodes((component, node) => {
-        if (component.remove)
-            component.remove(node);
+        if (component.stop)
+            component.stop(node);
     });
     EventQueue.clear();
     clearNodeOutputStates();

@@ -14,6 +14,11 @@ export const Light: CircuitComponent = {
         bulb?.classList.toggle('signal-high', isOn);
     },
 
+    stop: (node: Node) => {
+        const bulb = document.querySelector(`.react-flow__node[data-id="${node.id}"] .light-bulb`);
+        bulb?.classList.remove('signal-high');
+    },
+
     component: () => (
         <div style={{position: 'relative', lineHeight: 0}}>
             <LightSVG className="light-bulb" height={50}/>

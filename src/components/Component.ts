@@ -6,6 +6,7 @@ export interface CircuitComponent {
     remove?: (node: Node) => void;
     pause?: (node: Node) => void;
     resume?: (node: Node) => void;
+    stop?: (node: Node) => void;
     evaluate: (node: Node) => void;
     component: (props?: NodeProps) => JSX.Element;
 }

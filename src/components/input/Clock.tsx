@@ -44,6 +44,10 @@ export const Clock: CircuitComponent = {
         startTimes.delete(node);
     },
 
+    stop: (node: Node) => {
+        Clock.remove!(node);
+    },
+
     pause: (node: Node) => {
         const intervalID = intervals.get(node);
         if (intervalID) {
