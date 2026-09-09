@@ -17,6 +17,7 @@ type ClockProps = CircuitComponentProps & {
  * A map containing node - interval ID pairs.
  */
 const intervals: Map<Node, number> = new Map();
+const startTimes: Map<Node, number> = new Map();
 
 export const Clock: CircuitComponent = {
     initialize: (node: Node) => {
@@ -26,6 +27,7 @@ export const Clock: CircuitComponent = {
         const frequency = data.frequency || 1; // Default frequency of 1 Hz
         const interval = 1000 / frequency; // Convert frequency to interval in milliseconds
         const intervalID = window.setInterval(() => {
+            startTimes.set(node, Date.now());
             Clock.evaluate(node);
             clockUpdateBus.emit('stateChange');
         }, interval);
@@ -39,6 +41,29 @@ export const Clock: CircuitComponent = {
             window.clearInterval(intervalID);
             intervals.delete(node);
         }
+        startTimes.delete(node);
+    },
+
+    pause: (node: Node) => {
+        const intervalID = intervals.get(node);
+        if (intervalID) {
+            window.clearInterval(intervalID);
+            intervals.delete(node);
+        }
+    },
+
+    resume: (node: Node) => {
+        if (!node.type && node.type !== "clock")
+            return;
+        const data = node.data as ClockProps;
+        const frequency = data.frequency || 1;
+        const interval = 1000 / frequency;
+        const currentTime = Date.now();
+        const startDelay = Math.max((startTimes.get(node) || 0) + interval, currentTime) - currentTime;
+        window.setTimeout(() => {
+            Clock.evaluate(node);
+            Clock.initialize!(node);
+        }, startDelay);
     },
 
     evaluate: (node: Node) => {

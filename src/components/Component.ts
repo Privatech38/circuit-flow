@@ -4,6 +4,8 @@ import type {JSX} from "react/jsx-runtime";
 export interface CircuitComponent {
     initialize?: (node: Node) => void;
     remove?: (node: Node) => void;
+    pause?: (node: Node) => void;
+    resume?: (node: Node) => void;
     evaluate: (node: Node) => void;
     component: (props?: NodeProps) => JSX.Element;
 }
