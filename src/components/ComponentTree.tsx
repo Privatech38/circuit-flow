@@ -17,6 +17,8 @@ import XNORGateSVG from '../assets/components/gates/XNOrGate.svg?react';
 import MultiplexerSVG from '../assets/components/multiplexer/Multiplexer.svg?react';
 import SRLatchSVG from '@assets/components/latches/SRLatch.svg?react';
 import DFlipFlopSVG from '@assets/components/latches/DFlipFlop.svg?react';
+import JKFlipFlopSVG from '@assets/components/latches/JKFlipFlop.svg?react';
+import TFlipFlopSVG from '@assets/components/latches/TFlipFlop.svg?react';
 import './ComponentTree.css';
 import {LogicGate} from "./gates";
 import {Output} from "@/components/output";
@@ -82,6 +84,8 @@ export default function ComponentTree() {
             <ComponentCategory label={"Latches"}>
                 <ComponentItem componentID={Latch.SR_LATCH} label={"SR Latch"} icon={SRLatchSVG} onDrop={handleNodeDrop}/>
                 <ComponentItem componentID={Latch.D_FLIP_FLOP} label={"D flip-flop"} icon={DFlipFlopSVG} onDrop={handleNodeDrop}/>
+                <ComponentItem componentID={Latch.JK_FLIP_FLOP} label={"JK flip-flop"} icon={JKFlipFlopSVG} onDrop={handleNodeDrop}/>
+                <ComponentItem componentID={Latch.T_FLIP_FLOP} label={"T flip-flop"} icon={TFlipFlopSVG} onDrop={handleNodeDrop}/>
             </ComponentCategory>
         </div>
     )
