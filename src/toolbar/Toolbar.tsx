@@ -21,28 +21,28 @@ export default function Toolbar() {
 
     return (
         <div id='toolbar'>
-            {simulationState == "stopped" && <Item>
+            {simulationState == "stopped" &&
+            <Item>
                 <Button id="start-button" title={'Run Simulation'} onClick={startSimulation}>
                     <span className="material-symbols-rounded button_icon" style={{color: '#03C03C'}}>play_arrow</span>
                 </Button>
             </Item>}
-            {simulationState == "running" &&
-            (<>
+            {simulationState == "paused" &&
                 <Item>
+                    <Button id="resume-button" title={'Resume Simulation'} onClick={resumeSimulation}>
+                        <span className="material-symbols-rounded button_icon" style={{color: '#03C03C'}}>resume</span>
+                    </Button>
+                </Item>}
+            {simulationState == "running" &&
+            <Item>
                 <Button id="pause-button" title={'Pause Simulation'} onClick={pauseSimulation}>
                     <span className="material-symbols-rounded button_icon"
                           style={{color: '#fb5700', transform: 'scale(1.2)'}}>pause</span>
                 </Button>
-            </Item>
-            <Item>
+            </Item>}
+            {simulationState != "stopped" && <Item>
                 <Button id="stop-button" title={'Stop Simulation'} onClick={stopSimulation}>
-                    <span className="material-symbols-rounded button_icon" style={{ color: '#d21010' }}>stop</span>
-                </Button>
-            </Item>
-            </>)}
-            {simulationState == "paused" && <Item>
-                <Button id="resume-button" title={'Resume Simulation'} onClick={resumeSimulation}>
-                    <span className="material-symbols-rounded button_icon" style={{color: '#03C03C'}}>resume</span>
+                    <span className="material-symbols-rounded button_icon" style={{color: '#d21010'}}>stop</span>
                 </Button>
             </Item>}
         </div>
