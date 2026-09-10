@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SR Latch
 - D, T, and JK Flip-Flops
 
+### Changed
+- Updated component tree styling
+
 ## [0.1.0]
 
 ### Added

@@ -1,10 +1,28 @@
+.component-tree {
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
 /* Component category */
 .component-category {
+    margin-bottom: 20px;
+}
 
+.component-category:last-child {
+    margin-bottom: 0;
 }
 
 .component-category__label {
-
+    margin: 0 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+    opacity: 0.75;
 }
 
 .component-category__content {
@@ -18,35 +36,54 @@
 
 /* Component item tile */
 .component-item {
-    width: 60px;
+    width: 64px;
     display: inline-flex;
     flex-direction: column;
     align-items: center;
     gap: 6px;
-    padding: 10px 12px;
-    border-radius: 12px;
-    background: #f3f4f6;
-    transition: background-color 160ms ease, transform 160ms ease;
+    padding: 10px 8px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    cursor: grab;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
 }
 
 .component-item:hover {
-    background: #dbeafe;
+    border-color: var(--accent-border);
+    background: var(--accent-bg);
+    box-shadow: var(--shadow);
+}
+
+.component-item:active {
+    cursor: grabbing;
+}
+
+.component-item:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
 .component-item__icon {
-    height: 30px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 160ms ease;
+}
+
+.component-item:hover .component-item__icon {
+    transform: scale(1.08);
 }
 
 .component-item__icon svg {
-    height: 30px;
+    height: 32px;
 }
 
 .component-item__label {
-    font-size: 12px;
-    line-height: 1;
-    color: #111827;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+    color: var(--text);
 }
-
