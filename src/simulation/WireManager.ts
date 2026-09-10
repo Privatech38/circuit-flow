@@ -13,6 +13,13 @@ export const WireState: Map<string, boolean> = new Map();
 const NodeOutputState: Map<string, Set<string>> = new Map();
 
 /**
+ * Clears all node output states.
+ */
+export function clearNodeOutputStates() {
+    NodeOutputState.clear();
+}
+
+/**
  * Returns the state of a wire
  * @param node
  * @param handleID
@@ -96,4 +103,12 @@ export function updateEdgeStyle(edge: Edge | { id: string }, state: boolean) {
         const el = document.querySelector(`[data-id="${edge.id}"] path`);
         el?.classList.toggle('signal-high', state);
     }
+}
+
+/**
+ * Clears all edge styles in the current React Flow instance.
+ */
+export function clearEdgeStyles() {
+    const edges = document.querySelectorAll('.react-flow__edge path');
+    edges.forEach(edge => edge.classList.remove('signal-high'));
 }
