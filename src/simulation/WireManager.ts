@@ -90,7 +90,7 @@ export function setHandleOutputUpdate(node: Node, handleId: string, state: boole
     if (!setHandleOutput(node, handleId, state))
         return;
     for (const outgoingEdge of getOutgoingEdges(node, handleId)) {
-        EventQueue.enqueue(outgoingEdge.node);
+        EventQueue.enqueue({node: outgoingEdge.node, targetHandle: outgoingEdge.edge.targetHandle});
         updateEdgeStyle(outgoingEdge.edge, state);
     }
 }

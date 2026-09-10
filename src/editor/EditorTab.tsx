@@ -121,7 +121,7 @@ function EditorTab() {
                     updateEdgeStyle(edge, edge.sourceHandle ? nodeOutputState.has(edge.sourceHandle) : nodeOutputState.size > 0)
                     const targetNode = getNode(edge.target);
                     if (targetNode) {
-                        EventQueue.enqueue(targetNode);
+                        EventQueue.enqueue({node: targetNode, targetHandle: edge.targetHandle});
                         stepSimulation();
                     }
                 }
@@ -131,7 +131,7 @@ function EditorTab() {
             for (const edge of removedEdges) {
                 const targetNode = getNode(edge.target);
                 if (targetNode) {
-                    EventQueue.enqueue(targetNode);
+                    EventQueue.enqueue({node: targetNode, targetHandle: edge.targetHandle});
                     stepSimulation();
                 }
             }
