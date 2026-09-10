@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Target handle ID in evaluation function
+- SR Latch
+- D, T, and JK Flip-Flops
 
 ## [0.1.0]
 
