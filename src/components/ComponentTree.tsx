@@ -15,11 +15,13 @@ import NORGateSVG from '../assets/components/gates/NOrGate.svg?react';
 import XORGateSVG from '../assets/components/gates/XOrGate.svg?react';
 import XNORGateSVG from '../assets/components/gates/XNOrGate.svg?react';
 import MultiplexerSVG from '../assets/components/multiplexer/Multiplexer.svg?react';
+import SRLatchSVG from '../assets/components/latches/SRLatch.svg?react';
 import './ComponentTree.css';
 import {LogicGate} from "./gates";
 import {Output} from "@/components/output";
 import {Input} from "@/components/input";
 import {MultiplexerType} from "@/components/multiplexer";
+import {Latch} from "@/components/latches";
 
 export default function ComponentTree() {
     const {setNodes, screenToFlowPosition} = useReactFlow();
@@ -75,6 +77,9 @@ export default function ComponentTree() {
             <ComponentCategory label={"Multiplexers"}>
                 <ComponentItem componentID={MultiplexerType.MUX} label={"MUX"} icon={MultiplexerSVG} onDrop={handleNodeDrop}/>
                 <ComponentItem componentID={MultiplexerType.DMUX} label={"DMUX"} icon={MultiplexerSVG} flip onDrop={handleNodeDrop}/>
+            </ComponentCategory>
+            <ComponentCategory label={"Latches"}>
+                <ComponentItem componentID={Latch.SR_LATCH} label={"SR Latch"} icon={SRLatchSVG} onDrop={handleNodeDrop}/>
             </ComponentCategory>
         </div>
     )
