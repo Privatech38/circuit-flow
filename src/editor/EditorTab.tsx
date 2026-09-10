@@ -21,13 +21,15 @@ import {getNodeOutputState, updateEdgeStyle} from "@/simulation/WireManager.ts";
 import {componentRegistry, type ComponentType} from "@/components/ComponentRegistry.ts";
 import {PoweredEdge} from "@/editor/PoweredEdge.tsx";
 import {EventQueue} from "@/simulation/EventQueue.ts";
-import {stepSimulation} from "@/simulation/SimulationManager.ts";
+import {getSimulationState, stepSimulation} from "@/simulation/SimulationManager.ts";
+import {latchTypes} from "@/components/latches";
 
 const nodeTypes = {
     ...logicGateTypes,
     ...inputTypes,
     ...outputTypes,
     ...multiplexerTypes,
+    ...latchTypes
 }
 
 const edgeTypes = {
@@ -70,6 +72,8 @@ function EditorTab() {
                 syncSimulationNodes(nextNodes);
                 return nextNodes;
             });
+            if (getSimulationState() == "stopped")
+                return;
             changes.filter((change) => change.type === "add").forEach((change) => {
                 const node = change.item;
                 if (node.type && node.type in componentRegistry) {
