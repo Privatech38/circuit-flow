@@ -51,20 +51,20 @@ export function startSimulation() {
     });
 
     const inputNodes = getInputNodes();
-    inputNodes.forEach(node => EventQueue.enqueue(node));
+    inputNodes.forEach(node => EventQueue.enqueue({node: node}));
 
     stepSimulation();
 }
 
 export function stepSimulation() {
-    const node = EventQueue.dequeue();
+    const {node, targetHandle} = EventQueue.dequeue()!;
 
     if (!node || !node.type)
         return;
 
     const evaluator = componentRegistry[node.type as ComponentType];
     if (evaluator.evaluate)
-        evaluator.evaluate(node);
+        evaluator.evaluate(node, targetHandle);
 
     if (EventQueue.size > 0)
         stepSimulation();

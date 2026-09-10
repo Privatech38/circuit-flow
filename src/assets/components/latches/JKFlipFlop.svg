@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 60"
+     stroke-width="2"
+     fill="white"
+     stroke="black"
+     font-family="Roboto"
+     font-size="10"
+     font-weight="400"
+     dominant-baseline="central">
+    <polygon points="1,1 49,1 49,59 1,59"/>
+    <polygon points="1,25 10,30 1,35"/>
+    <g stroke-width="1">
+        <g>
+            <text x="7" y="14">J</text>
+            <text x="7" y="46">K</text>
+        </g>
+        <g transform="translate(35, 0)">
+            <text y="18">Q</text>
+            <g>
+                <text y="42">Q</text>
+                <line x1="-0.5" y1="36" x2="7.5" y2="36" stroke-width="1.7"/>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -21,13 +21,15 @@ import {getNodeOutputState, updateEdgeStyle} from "@/simulation/WireManager.ts";
 import {componentRegistry, type ComponentType} from "@/components/ComponentRegistry.ts";
 import {PoweredEdge} from "@/editor/PoweredEdge.tsx";
 import {EventQueue} from "@/simulation/EventQueue.ts";
-import {stepSimulation} from "@/simulation/SimulationManager.ts";
+import {getSimulationState, stepSimulation} from "@/simulation/SimulationManager.ts";
+import {latchTypes} from "@/components/latches";
 
 const nodeTypes = {
     ...logicGateTypes,
     ...inputTypes,
     ...outputTypes,
     ...multiplexerTypes,
+    ...latchTypes
 }
 
 const edgeTypes = {
@@ -70,6 +72,8 @@ function EditorTab() {
                 syncSimulationNodes(nextNodes);
                 return nextNodes;
             });
+            if (getSimulationState() == "stopped")
+                return;
             changes.filter((change) => change.type === "add").forEach((change) => {
                 const node = change.item;
                 if (node.type && node.type in componentRegistry) {
@@ -117,7 +121,7 @@ function EditorTab() {
                     updateEdgeStyle(edge, edge.sourceHandle ? nodeOutputState.has(edge.sourceHandle) : nodeOutputState.size > 0)
                     const targetNode = getNode(edge.target);
                     if (targetNode) {
-                        EventQueue.enqueue(targetNode);
+                        EventQueue.enqueue({node: targetNode, targetHandle: edge.targetHandle});
                         stepSimulation();
                     }
                 }
@@ -127,7 +131,7 @@ function EditorTab() {
             for (const edge of removedEdges) {
                 const targetNode = getNode(edge.target);
                 if (targetNode) {
-                    EventQueue.enqueue(targetNode);
+                    EventQueue.enqueue({node: targetNode, targetHandle: edge.targetHandle});
                     stepSimulation();
                 }
             }
