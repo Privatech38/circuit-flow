@@ -2,13 +2,18 @@
   "name": "circuit-flow",
   "description": "An app for creating and simulating digital circuits.",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "Apache-2.0",
   "author": {
     "name": "Žiga Slatnar Štagar",
     "email": "contact@privatech.dev",
     "url": "https://github.com/Privatech38"
   },
+  "homepage": "https://github.com/Privatech38/circuit-flow",
+  "bugs": {
+    "url": "https://github.com/Privatech38/circuit-flow/issues"
+  },
+  "repository": "github:Privatech38/circuit-flow",
   "type": "module",
   "scripts": {
     "dev": "vite",
