@@ -40,7 +40,6 @@ export const Clock: CircuitComponent = {
         const interval = 1000 / frequency; // Convert frequency to interval in milliseconds
         getClockState(node.id).intervalID = window.setInterval(() => {
             Clock.evaluate(node);
-            clockUpdateBus.emit('stateChange');
         }, interval);
     },
 
@@ -83,6 +82,7 @@ export const Clock: CircuitComponent = {
         getClockState(node.id).startTime = Date.now();
         const current = getNodeOutputState(node).has("out");
         setHandleOutputUpdate(node, "out", !current);
+        clockUpdateBus.emit('stateChange');
     },
 
     component: () => (
