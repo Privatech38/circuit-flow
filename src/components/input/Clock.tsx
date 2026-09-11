@@ -1,5 +1,5 @@
 import {Handle, type Node, Position} from '@xyflow/react';
-import ClockSVG from '@assets/components/input/Clock.svg';
+import ClockSVG from '@assets/components/input/Clock.svg?react';
 import type {CircuitComponent, CircuitComponentProps} from "@/components/Component.ts";
 import {getNodeOutputState, setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 import {EventEmitter} from "eventemitter3";
@@ -87,7 +87,7 @@ export const Clock: CircuitComponent = {
 
     component: () => (
         <div style={{position: 'relative', lineHeight: 0}}>
-            <img src={ClockSVG} alt={"Clock"} height={50} />
+            <ClockSVG className="component-shape" height={50} />
 
             {/* Output handle */}
             <Handle type="source" position={Position.Right} id="out"/>

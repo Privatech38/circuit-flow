@@ -37,9 +37,7 @@ function MultiplexerNode(props?: NodeProps) {
             <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{display: 'block'}}>
                 <polygon
                     points={`1,1 ${width - 1},${heightDecrease + 1} ${width - 1},${height - heightDecrease - 1} 1,${height - 1}`}
-                    fill="white"
-                    stroke="black"
-                    strokeWidth={2}
+                    className="component-shape"
                 />
             </svg>
 

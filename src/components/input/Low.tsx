@@ -3,7 +3,7 @@ import {
     Position,
     type Node
 } from '@xyflow/react';
-import NodeSVG from '@assets/components/input/Low.svg';
+import NodeSVG from '@assets/components/input/Low.svg?react';
 import type {CircuitComponent} from "@/components/Component.ts";
 import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 
@@ -18,7 +18,7 @@ export const Low: CircuitComponent = {
 
     component: () => (
         <div style={{position: 'relative', lineHeight: 0}}>
-            <img src={NodeSVG} alt={"Low Signal"} height={50} />
+            <NodeSVG className="component-shape" height={50} />
 
             {/* Output handle */}
             <Handle type="source" position={Position.Right} id="out"/>

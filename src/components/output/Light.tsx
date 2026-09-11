@@ -20,7 +20,7 @@ export const Light: CircuitComponent = {
 
     component: () => (
         <div style={{position: 'relative', lineHeight: 0}}>
-            <LightSVG className="light-bulb" height={50}/>
+            <LightSVG className="light-bulb component-stroke" height={50}/>
 
             {/* Input handle */}
             <Handle type="target" position={Position.Left} id="in"/>

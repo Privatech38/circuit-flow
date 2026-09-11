@@ -11,6 +11,9 @@
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
+  --component-fill: #fff;
+  --component-stroke: #555;
+
   --sans: 'Roboto', sans-serif;
   --heading: 'Roboto', sans-serif;
   --mono: ui-monospace, Consolas, monospace;
@@ -43,6 +46,9 @@
     --social-bg: rgba(47, 48, 58, 0.5);
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+    --component-fill: #2e303a;
+    --component-stroke: #9ca3af;
   }
 }
 
@@ -104,11 +110,28 @@ code {
 
 .light-bulb {
   fill: #fff;
-  transition: fill 0.15s ease;
+  transition: fill 0.5s ease;
 }
 
 .light-bulb.signal-high {
   fill: #f00;
+  /*transition: stroke 0.5s ease;*/
+}
+
+.component-shape,
+.component-stroke {
+  stroke: var(--component-stroke);
+  stroke-width: 2;
+  transition: stroke 0.15s ease;
+}
+
+.component-shape {
+  fill: var(--component-fill);
+}
+
+.react-flow__node.selected .component-shape,
+.react-flow__node.selected .component-stroke {
+  stroke: var(--accent);
 }
 
 @keyframes wire-pulse {
