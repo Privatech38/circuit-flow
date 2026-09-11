@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Updated component tree styling
+- Replace evaluation time input reading to a trigger time snapshot system 
 
 ## [0.1.0]
 
