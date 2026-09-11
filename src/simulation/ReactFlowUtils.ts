@@ -81,6 +81,15 @@ export function getIncomingEdges(
     return filteredEdges.filter((edge) => edge.target === node.id);
 }
 
+export function getTargetHandles(node: Node | { id: string }): string[] {
+    if (!node.id) {
+        return [];
+    }
+
+    return simulationEdges.filter((edge) => edge.target === node.id && edge.targetHandle)
+        .map(edge => edge.targetHandle!);
+    }
+
 /**
  * Returns the handle state if any of the input wires are on HIGH signal.
  * @param node The node to check.

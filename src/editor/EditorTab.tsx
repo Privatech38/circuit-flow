@@ -20,7 +20,7 @@ import {syncSimulationEdges, syncSimulationNodes} from "@/simulation/ReactFlowUt
 import {getNodeOutputState, updateEdgeStyle} from "@/simulation/WireManager.ts";
 import {componentRegistry, type ComponentType} from "@/components/ComponentRegistry.ts";
 import {PoweredEdge} from "@/editor/PoweredEdge.tsx";
-import {EventQueue} from "@/simulation/EventQueue.ts";
+import {enqueueTriggeredNode} from "@/simulation/EventQueue.ts";
 import {getSimulationState, stepSimulation} from "@/simulation/SimulationManager.ts";
 import {latchTypes} from "@/components/latches";
 
@@ -50,7 +50,7 @@ const initialNodes: Node[] = [
 const initialEdges: Edge[] = [
     {id: 'clock1-gate1', source: 'clock1', sourceHandle: 'out', target: 'gate1', targetHandle: 'a', type: 'powered-edge'},
     {id: 'high1-gate1', source: 'high1', sourceHandle: 'out', target: 'gate1', targetHandle: 'b', type: 'powered-edge'},
-    {id: 'gate1-light1', source: 'gate1', sourceHandle: 'out', target: 'light1', type: 'powered-edge'},
+    {id: 'gate1-light1', source: 'gate1', sourceHandle: 'out', target: 'light1', targetHandle: 'in', type: 'powered-edge'},
 ];
 
 function EditorTab() {
@@ -121,7 +121,7 @@ function EditorTab() {
                     updateEdgeStyle(edge, edge.sourceHandle ? nodeOutputState.has(edge.sourceHandle) : nodeOutputState.size > 0)
                     const targetNode = getNode(edge.target);
                     if (targetNode) {
-                        EventQueue.enqueue({node: targetNode, targetHandle: edge.targetHandle});
+                        enqueueTriggeredNode(targetNode, edge.targetHandle);
                         stepSimulation();
                     }
                 }
@@ -131,7 +131,7 @@ function EditorTab() {
             for (const edge of removedEdges) {
                 const targetNode = getNode(edge.target);
                 if (targetNode) {
-                    EventQueue.enqueue({node: targetNode, targetHandle: edge.targetHandle});
+                    enqueueTriggeredNode(targetNode, edge.targetHandle);
                     stepSimulation();
                 }
             }

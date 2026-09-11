@@ -5,7 +5,6 @@ import {
 import GateSVG from '../../assets/components/gates/BufferGate.svg'
 import type {CircuitComponent} from "@/components/Component.ts";
 import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
-import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
 
 export const BufferGate: CircuitComponent = {
     component: () => (
@@ -20,8 +19,8 @@ export const BufferGate: CircuitComponent = {
             </div>
     ),
 
-    evaluate: (node: Node) => {
-        setHandleOutputUpdate(node, "out", getHandleState(node, { id: "in" }));
+    evaluate: (node: Node, inputSnapshot: Set<string>) => {
+        setHandleOutputUpdate(node, "out", inputSnapshot.has("in"));
     }
 
 }

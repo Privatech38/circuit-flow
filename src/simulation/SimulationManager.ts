@@ -1,7 +1,7 @@
 import {getSimulationNodes} from "@/simulation/ReactFlowUtils.ts";
 import {inputTypes} from "@/components/input";
 import type {Node} from "@xyflow/react";
-import {EventQueue} from "@/simulation/EventQueue.ts";
+import {enqueueTriggeredNode, EventQueue} from "@/simulation/EventQueue.ts";
 import {componentRegistry, type ComponentType} from "@/components/ComponentRegistry.ts";
 import {clockUpdateBus} from "@/components/input/Clock.tsx";
 import {EventEmitter} from "eventemitter3";
@@ -51,20 +51,20 @@ export function startSimulation() {
     });
 
     const inputNodes = getInputNodes();
-    inputNodes.forEach(node => EventQueue.enqueue({node: node}));
+    inputNodes.forEach(node => enqueueTriggeredNode(node));
 
     stepSimulation();
 }
 
 export function stepSimulation() {
-    const {node, targetHandle} = EventQueue.dequeue()!;
+    const {node, inputSnapshot, targetHandle} = EventQueue.dequeue()!;
 
     if (!node || !node.type)
         return;
 
     const evaluator = componentRegistry[node.type as ComponentType];
     if (evaluator.evaluate)
-        evaluator.evaluate(node, targetHandle);
+        evaluator.evaluate(node, inputSnapshot, targetHandle);
 
     if (EventQueue.size > 0)
         stepSimulation();

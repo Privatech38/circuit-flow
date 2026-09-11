@@ -4,17 +4,17 @@ import {
 } from '@xyflow/react';
 import DFlipFlopSVG from '@assets/components/latches/DFlipFlop.svg'
 import type {CircuitComponent} from "@/components/Component.ts";
-import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
 import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
+import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
 
 export const DFlipFlop: CircuitComponent = {
     initialize: (node: Node) => {
         setHandleOutputUpdate(node, "Q_not", true);
     },
 
-    evaluate: (node: Node, targetHandle: string | null | undefined) => {
-        const isSOn = getHandleState(node, { id: "S" });
-        const isROn = getHandleState(node, { id: "R" });
+    evaluate: (node: Node, inputSnapshot: Set<string>, targetHandle: string | null | undefined) => {
+        const isSOn = inputSnapshot.has("S");
+        const isROn = inputSnapshot.has("R");
 
         let Q = getHandleState(node, { id: "Q" });
         let Q_not = getHandleState(node, { id: "Q_not" });
@@ -23,9 +23,9 @@ export const DFlipFlop: CircuitComponent = {
             // D flip-flop behavior
             if (!targetHandle || targetHandle !== "Clk")
                 return;
-            const clock = getHandleState(node, { id: "Clk" });
+            const clock = inputSnapshot.has("Clk");
             if (clock) {
-                const D = getHandleState(node, { id: "D" });
+                const D = inputSnapshot.has("D");
                 Q = D;
                 Q_not = !D;
             } else {

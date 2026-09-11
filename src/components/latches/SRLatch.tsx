@@ -12,9 +12,9 @@ export const SRLatch: CircuitComponent = {
         setHandleOutputUpdate(node, "Q_not", true);
     },
 
-    evaluate: (node: Node) => {
-        const isSOn = getHandleState(node, { id: "S" });
-        const isROn = getHandleState(node, { id: "R" });
+    evaluate: (node: Node, inputSnapshot: Set<string>) => {
+        const isSOn = inputSnapshot.has("S");
+        const isROn = inputSnapshot.has("R");
 
         let Q = getHandleState(node, { id: "Q" });
         let Q_not = getHandleState(node, { id: "Q_not" });
