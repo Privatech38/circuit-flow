@@ -1,4 +1,17 @@
 #toolbar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#title {
+    font-size: 36px;
+    margin: 2px;
+}
+
+#sim-controls {
     --item-radius: 5px;
     display: flex;
     flex-direction: row;

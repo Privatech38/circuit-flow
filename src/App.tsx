@@ -62,11 +62,15 @@ function App() {
   return (
       <div id='app'>
         <ReactFlowProvider>
-          <Toolbar/>
-          <DockviewReact
-              theme={isDark ? themeDark : themeLight}
-              components={components}
-              onReady={onReady}></DockviewReact>
+          <div className="dockview-container">
+            <Toolbar/>
+            <div className="dockview-viewport">
+              <DockviewReact
+                  theme={{...(isDark ? themeDark : themeLight), gap: 8}}
+                  components={components}
+                  onReady={onReady}></DockviewReact>
+            </div>
+          </div>
         </ReactFlowProvider>
       </div>
   );
