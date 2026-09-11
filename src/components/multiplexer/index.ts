@@ -1,8 +1,6 @@
 import {Multiplexer} from "@/components/multiplexer/Multiplexer.tsx";
 import {Demultiplexer} from "@/components/multiplexer/Demultiplexer.tsx";
 import type {CircuitComponentProps} from "@/components/Component.ts";
-import type {Node} from "@xyflow/react";
-import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
 
 export const MultiplexerType = {
     MUX: "multiplexer",
@@ -76,10 +74,10 @@ export function computeMuxLayout(selectBits: number, numInputs: number): MuxLayo
     };
 }
 
-export function getSelectedIndex(node: Node, selectBits: number): number {
+export function getSelectedIndex(selectBits: number, inputSnapshot: Set<string>): number {
     let selectedIndex = 0;
     for (let i = 0; i < selectBits; i++) {
-        if (getHandleState(node, {id: `s${i}`})) {
+        if (inputSnapshot.has(`s${i}`)) {
             selectedIndex |= (1 << i);
         }
     }

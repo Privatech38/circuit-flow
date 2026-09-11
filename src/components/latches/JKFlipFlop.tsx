@@ -12,15 +12,15 @@ export const JKFlipFlop: CircuitComponent = {
         setHandleOutputUpdate(node, "Q_not", true);
     },
 
-    evaluate: (node: Node, targetHandle: string | null | undefined) => {
+    evaluate: (node: Node, inputSnapshot: Set<string>, targetHandle: string | null | undefined) => {
         if (!targetHandle || targetHandle !== "Clk")
             return;
-        const clock = getHandleState(node, { id: "Clk" });
+        const clock = inputSnapshot.has("Clk");
         if (!clock)
             return;
 
-        const isJOn = getHandleState(node, { id: "J" });
-        const isKOn = getHandleState(node, { id: "K" });
+        const isJOn = inputSnapshot.has("J");
+        const isKOn = inputSnapshot.has("K");
 
         let Q = getHandleState(node, { id: "Q" });
         let Q_not = getHandleState(node, { id: "Q_not" });

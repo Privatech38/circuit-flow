@@ -1,6 +1,6 @@
 import type {Edge, Node} from "@xyflow/react";
 import {getOutgoingEdges} from "@/simulation/ReactFlowUtils.ts";
-import {EventQueue} from "@/simulation/EventQueue.ts";
+import {enqueueTriggeredNode} from "@/simulation/EventQueue.ts";
 
 /**
  * A map containing all wires' current states.
@@ -90,7 +90,7 @@ export function setHandleOutputUpdate(node: Node, handleId: string, state: boole
     if (!setHandleOutput(node, handleId, state))
         return;
     for (const outgoingEdge of getOutgoingEdges(node, handleId)) {
-        EventQueue.enqueue({node: outgoingEdge.node, targetHandle: outgoingEdge.edge.targetHandle});
+        enqueueTriggeredNode(outgoingEdge.node, outgoingEdge.edge.targetHandle);
         updateEdgeStyle(outgoingEdge.edge, state);
     }
 }

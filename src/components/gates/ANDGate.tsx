@@ -4,13 +4,12 @@ import {
 } from '@xyflow/react';
 import andGateSVG from '../../assets/components/gates/AndGate.svg'
 import type {CircuitComponent} from "@/components/Component.ts";
-import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
 import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 
 export const ANDGate: CircuitComponent = {
-    evaluate: (node: Node) => {
-        const isAOn = getHandleState(node, { id: "a" });
-        const isBOn = getHandleState(node, { id: "b" });
+    evaluate: (node: Node, inputSnapshot: Set<string>) => {
+        const isAOn = inputSnapshot.has("a");
+        const isBOn = inputSnapshot.has("b");
 
         const output = isAOn && isBOn;
 

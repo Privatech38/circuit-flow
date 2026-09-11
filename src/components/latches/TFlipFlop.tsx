@@ -12,14 +12,14 @@ export const TFlipFlop: CircuitComponent = {
         setHandleOutputUpdate(node, "Q_not", true);
     },
 
-    evaluate: (node: Node, targetHandle: string | null | undefined) => {
+    evaluate: (node: Node, inputSnapshot: Set<string>, targetHandle: string | null | undefined) => {
         if (!targetHandle || targetHandle !== "Clk")
             return;
-        const clock = getHandleState(node, { id: "Clk" });
+        const clock = inputSnapshot.has("Clk");
         if (!clock)
             return;
 
-        const isTOn = getHandleState(node, { id: "T" });
+        const isTOn = inputSnapshot.has("T");
 
         let Q = getHandleState(node, { id: "Q" });
         let Q_not = getHandleState(node, { id: "Q_not" });

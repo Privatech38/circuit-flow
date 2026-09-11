@@ -5,11 +5,10 @@ import {
 } from '@xyflow/react';
 import LightSVG from '@assets/components/output/Light.svg?react';
 import type {CircuitComponent} from "@/components/Component.ts";
-import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
 
 export const Light: CircuitComponent = {
-    evaluate: (node: Node) => {
-        const isOn = getHandleState(node);
+    evaluate: (node: Node, inputSnapshot: Set<string>) => {
+        const isOn = inputSnapshot.has("in");
         const bulb = document.querySelector(`.react-flow__node[data-id="${node.id}"] .light-bulb`);
         bulb?.classList.toggle('signal-high', isOn);
     },

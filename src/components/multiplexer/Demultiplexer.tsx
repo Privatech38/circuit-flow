@@ -5,7 +5,6 @@ import {
     type NodeProps
 } from '@xyflow/react';
 import type {CircuitComponent} from "@/components/Component.ts";
-import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
 import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 import {
     clampSelectBits,
@@ -83,12 +82,12 @@ function DemultiplexerNode(props?: NodeProps) {
 }
 
 export const Demultiplexer: CircuitComponent = {
-    evaluate: (node: Node) => {
+    evaluate: (node: Node, inputSnapshot: Set<string>) => {
         const data = node.data as MultiplexerProps;
         const selectBits = clampSelectBits(data.selectBits);
-        const selectedIndex = getSelectedIndex(node, selectBits);
+        const selectedIndex = getSelectedIndex(selectBits, inputSnapshot);
 
-        const input = getHandleState(node, {id: 'in'});
+        const input = inputSnapshot.has('in');
         setHandleOutputUpdate(node, `o${selectedIndex}`, input);
     },
 

@@ -5,12 +5,11 @@ import {
 } from '@xyflow/react';
 import GateSVG from '../../assets/components/gates/NotGate.svg'
 import type {CircuitComponent} from "@/components/Component.ts";
-import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
 import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 
 export const NotGate: CircuitComponent = {
-    evaluate: (node: Node) => {
-        const inState = getHandleState(node, { id: "in" });
+    evaluate: (node: Node, inputSnapshot: Set<string>) => {
+        const inState = inputSnapshot.has("in");
         const output = !inState;
         setHandleOutputUpdate(node, "out", output);
     },
