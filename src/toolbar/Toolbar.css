@@ -5,6 +5,7 @@
     justify-content: end;
     align-items: end;
     padding: 0 1em;
+    background: var(--bg);
 }
 
 .toolbar__item {
@@ -19,7 +20,7 @@
 }
 
 .toolbar__item:hover {
-    background-color: lightgray;
+    background-color: var(--hover-bg);
 }
 
 .toolbar__button {

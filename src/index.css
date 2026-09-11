@@ -2,6 +2,7 @@
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;
+  --hover-bg: #ddd;
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
   --accent: #aa3bff;
@@ -37,7 +38,8 @@
   :root {
     --text: #9ca3af;
     --text-h: #f3f4f6;
-    --bg: #ffffff;
+    --bg: #1e1e1e;
+    --hover-bg: #303030;
     --border: #2e303a;
     --code-bg: #1f2028;
     --accent: #c084fc;
