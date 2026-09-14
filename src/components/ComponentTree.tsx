@@ -126,7 +126,7 @@ export default function ComponentTree() {
         return (
             <div className="component-item" aria-label={label} ref={draggableRef} style={{ zIndex: 200}}>
                 <div className="component-item__icon" aria-hidden="true" style={flip ? {transform: 'scaleX(-1)'} : undefined}>
-                    <Icon/>
+                    <Icon className="component-shape"/>
                 </div>
                 <div className="component-item__label">{label}</div>
             </div>

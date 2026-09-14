@@ -159,6 +159,7 @@ function EditorTab() {
                 onNodesDelete={onNodesDelete}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
+                colorMode={'system'}
                 fitView
                 defaultEdgeOptions={defaultEdgeOptions}
                 connectionLineType={ConnectionLineType.SmoothStep}

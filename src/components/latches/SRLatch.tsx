@@ -2,7 +2,7 @@ import {
     Handle, type Node,
     Position
 } from '@xyflow/react';
-import SRLatchSVG from '@assets/components/latches/SRLatch.svg'
+import SRLatchSVG from '@assets/components/latches/SRLatch.svg?react'
 import type {CircuitComponent} from "@/components/Component.ts";
 import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
 import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
@@ -39,7 +39,7 @@ export const SRLatch: CircuitComponent = {
 
     component: () => (
         <div style={{position: 'relative', lineHeight: 0}}>
-            <img src={SRLatchSVG} alt="SR Latch" height={50} />
+            <SRLatchSVG className="component-shape" height={50} />
 
             {/* Input handles */}
             <Handle type="target" position={Position.Left} id="S" style={{top: '30%'}}/>

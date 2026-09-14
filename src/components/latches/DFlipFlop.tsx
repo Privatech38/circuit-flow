@@ -2,7 +2,7 @@ import {
     Handle, type Node,
     Position
 } from '@xyflow/react';
-import DFlipFlopSVG from '@assets/components/latches/DFlipFlop.svg'
+import DFlipFlopSVG from '@assets/components/latches/DFlipFlop.svg?react'
 import type {CircuitComponent} from "@/components/Component.ts";
 import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 import {getHandleState} from "@/simulation/ReactFlowUtils.ts";
@@ -48,7 +48,7 @@ export const DFlipFlop: CircuitComponent = {
 
     component: () => (
         <div style={{position: 'relative', lineHeight: 0}}>
-            <img src={DFlipFlopSVG} alt="D flip-flop" height={60} />
+            <DFlipFlopSVG className="component-shape" height={60} />
 
             {/* Input handles */}
             <Handle type="target" position={Position.Left} id="D" style={{top: '30%'}}/>

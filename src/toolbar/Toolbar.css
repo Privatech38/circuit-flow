@@ -1,10 +1,24 @@
 #toolbar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#title {
+    font-size: 36px;
+    margin: 2px;
+}
+
+#sim-controls {
     --item-radius: 5px;
     display: flex;
     flex-direction: row;
     justify-content: end;
     align-items: end;
     padding: 0 1em;
+    background: var(--bg);
 }
 
 .toolbar__item {
@@ -19,7 +33,7 @@
 }
 
 .toolbar__item:hover {
-    background-color: lightgray;
+    background-color: var(--hover-bg);
 }
 
 .toolbar__button {

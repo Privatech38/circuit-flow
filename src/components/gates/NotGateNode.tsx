@@ -3,7 +3,7 @@ import {
     Position,
     type Node
 } from '@xyflow/react';
-import GateSVG from '../../assets/components/gates/NotGate.svg'
+import GateSVG from '../../assets/components/gates/NotGate.svg?react'
 import type {CircuitComponent} from "@/components/Component.ts";
 import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 
@@ -16,7 +16,7 @@ export const NotGate: CircuitComponent = {
 
     component: () => (
         <div style={{position: 'relative', lineHeight: 0}}>
-            <img src={GateSVG} alt={"Not Gate"} height={50} />
+            <GateSVG className="component-shape" height={50} />
 
             {/* Input handles */}
             <Handle type="target" position={Position.Left} id="in"/>

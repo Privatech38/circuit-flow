@@ -44,7 +44,7 @@
     padding: 10px 8px;
     border-radius: 10px;
     border: 1px solid var(--border);
-    background: var(--bg);
+    background: var(--dv-group-view-background-color);
     cursor: grab;
     transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
 }
