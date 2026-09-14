@@ -4,10 +4,10 @@ import {
     type Node
 } from '@xyflow/react';
 import NodeSVG from '@assets/components/input/Low.svg?react';
-import type {CircuitComponent} from "@/components/Component.ts";
+import type {InputCircuitComponent} from "@/components/Component.ts";
 import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 
-export const Low: CircuitComponent = {
+export const Low: InputCircuitComponent = {
     initialize: (node: Node) => {
         Low.evaluate(node);
     },

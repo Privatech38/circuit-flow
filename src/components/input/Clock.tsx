@@ -1,6 +1,6 @@
 import {Handle, type Node, Position} from '@xyflow/react';
 import ClockSVG from '@assets/components/input/Clock.svg?react';
-import type {CircuitComponent, CircuitComponentProps} from "@/components/Component.ts";
+import type {InputCircuitComponent, CircuitComponentProps} from "@/components/Component.ts";
 import {getNodeOutputState, setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 import {EventEmitter} from "eventemitter3";
 
@@ -31,7 +31,7 @@ function getClockState(id: string): ClockState {
     return state;
 }
 
-export const Clock: CircuitComponent = {
+export const Clock: InputCircuitComponent = {
     initialize: (node: Node) => {
         if (!node.type && node.type !== "clock")
             return;
