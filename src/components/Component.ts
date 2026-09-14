@@ -8,13 +8,13 @@ export interface CircuitComponent {
     resume?: (node: Node) => void;
     stop?: (node: Node) => void;
     evaluate: (node: Node, inputSnapshot: Set<string>, targetHandle?: string | null | undefined) => void;
-    component: (props?: NodeProps) => JSX.Element;
+    component: (props: NodeProps<Node<CircuitComponentData>>) => JSX.Element;
 }
 
 export interface InputCircuitComponent extends CircuitComponent {
     evaluate: (node: Node, inputSnapshot?: Set<string>, targetHandle?: string | null | undefined) => void;
 }
 
-export type CircuitComponentProps = {
-    label: string;
+export type CircuitComponentData = {
+    label: string | null | undefined;
 }

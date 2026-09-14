@@ -1,10 +1,18 @@
 import {
     Handle,
     Position,
-    type Node
+    type Node,
+    type NodeProps
 } from '@xyflow/react';
+import type {CSSProperties} from 'react';
 import LightSVG from '@assets/components/output/Light.svg?react';
-import type {CircuitComponent} from "@/components/Component.ts";
+import type {CircuitComponent, CircuitComponentData} from "@/components/Component.ts";
+
+type LightData = CircuitComponentData & {
+    color?: string;
+}
+
+const DEFAULT_LIGHT_COLOR = "#f00";
 
 export const Light: CircuitComponent = {
     evaluate: (node: Node, inputSnapshot: Set<string>) => {
@@ -18,12 +26,17 @@ export const Light: CircuitComponent = {
         bulb?.classList.remove('signal-high');
     },
 
-    component: () => (
-        <div style={{position: 'relative', lineHeight: 0}}>
-            <LightSVG className="light-bulb component-stroke" height={30}/>
+    component: (props: NodeProps<Node<LightData>>) => {
+        const data = props?.data as LightData | undefined;
+        const color = data?.color || DEFAULT_LIGHT_COLOR;
 
-            {/* Input handle */}
-            <Handle type="target" position={Position.Left} id="in"/>
-        </div>
-    )
+        return (
+            <div style={{position: 'relative', lineHeight: 0, '--light-color': color} as CSSProperties}>
+                <LightSVG className="light-bulb component-stroke" height={30}/>
+
+                {/* Input handle */}
+                <Handle type="target" position={Position.Left} id="in"/>
+            </div>
+        )
+    },
 }
