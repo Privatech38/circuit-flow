@@ -11,10 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Target handle ID in evaluation function
 - SR Latch
 - D, T, and JK Flip-Flops
+- InputCircuitComponent type
 
 ### Changed
 - Updated component tree styling
-- Replace evaluation time input reading to a trigger time snapshot system 
+- Replace evaluation time input reading to a trigger time snapshot system
+- Improved app CSS
 
 ## [0.1.0]
 
