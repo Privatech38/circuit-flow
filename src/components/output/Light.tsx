@@ -7,8 +7,9 @@ import {
 import type {CSSProperties} from 'react';
 import LightSVG from '@assets/components/output/Light.svg?react';
 import type {CircuitComponent, CircuitComponentData} from "@/components/Component.tsx";
+import ColorSelector from "@/components/configuration/ColorSelector.tsx";
 
-type LightData = CircuitComponentData & {
+export type LightData = CircuitComponentData & {
     color?: string;
 }
 
@@ -39,4 +40,11 @@ export const Light: CircuitComponent = {
             </div>
         )
     },
+
+    dataConfigurators: [
+        {
+            displayName: "Color",
+            component: ColorSelector
+        }
+    ]
 }

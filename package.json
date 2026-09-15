@@ -33,6 +33,7 @@
     "eventemitter3": "^5.0.4",
     "flexlayout-react": "^0.10.7",
     "material-symbols": "^0.47.0",
+    "mui-color-input": "^9.0.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "yocto-queue": "^1.2.2"
