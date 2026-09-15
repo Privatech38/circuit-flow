@@ -2,6 +2,7 @@ import {useCallback, useMemo, useState} from "react";
 import {useNodesData, useOnSelectionChange, type Node, type NodeProps, type OnSelectionChangeParams} from "@xyflow/react";
 import {componentRegistry, type ComponentType} from "@/components/ComponentRegistry.ts";
 import {defaultConfigurators, type CircuitComponentData, type DataConfigurator} from "@/components/Component.tsx";
+import "./PropertiesPanel.css";
 
 export function PropertiesPanel() {
     const [selectedNodeId, setSelectedNodeId] = useState("");
@@ -22,7 +23,11 @@ export function PropertiesPanel() {
     }, [node?.type]);
 
     if (!node) {
-        return <div>No component selected</div>;
+        return (
+            <div className="properties-panel properties-panel--empty">
+                <span className="properties-panel__empty-text">No component selected</span>
+            </div>
+        );
     }
 
     const nodeProps: NodeProps<Node<CircuitComponentData>> = {
@@ -42,12 +47,16 @@ export function PropertiesPanel() {
 
     return (
         <div className="properties-panel">
-            {configurators.map(({displayName, component: Configurator}) => (
-                <div className="properties-panel__field" key={displayName}>
-                    <label className="properties-panel__field-label">{displayName}</label>
-                    <Configurator {...nodeProps} />
-                </div>
-            ))}
+            <div className="properties-panel__fields">
+                {configurators.map(({displayName, component: Configurator}) => (
+                    <div className="properties-panel__field" key={displayName}>
+                        <label className="properties-panel__field-label">{displayName}</label>
+                        <div className="properties-panel__field-control">
+                            <Configurator {...nodeProps} />
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

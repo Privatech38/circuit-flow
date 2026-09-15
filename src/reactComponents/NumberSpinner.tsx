@@ -3,7 +3,6 @@ import { NumberField as BaseNumberField } from '@base-ui/react/number-field';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -55,20 +54,6 @@ export default function NumberSpinner({
                     <Box component="span" sx={{ userSelect: 'none', width: 'max-content' }} />
                 }
             >
-                <FormLabel
-                    htmlFor={id}
-                    sx={{
-                        display: 'inline-block',
-                        cursor: 'ew-resize',
-                        fontSize: '0.875rem',
-                        color: 'text.primary',
-                        fontWeight: 500,
-                        lineHeight: 1.5,
-                        mb: 0.5,
-                    }}
-                >
-                    {label}
-                </FormLabel>
                 <BaseNumberField.ScrubAreaCursor>
                     <OpenInFullIcon
                         fontSize="small"
