@@ -64,8 +64,8 @@ function App() {
 
     const rightGroup = api.addEdgeGroup('right', {
         id: 'right-group',
-        initialSize: 300,
-        minimumSize: 180
+        initialSize: 360,
+        minimumSize: 320
     })
 
     api.addPanel({
