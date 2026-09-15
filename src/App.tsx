@@ -13,6 +13,7 @@ import {
   themeLight
 } from "dockview-react";
 import {ReactFlowProvider} from "@xyflow/react";
+import {PropertiesPanel} from "@/editor/properties/PropertiesPanel.tsx";
 
 const darkSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -34,7 +35,10 @@ function App() {
     },
     componentTree: () => {
       return ComponentTree();
-    }
+    },
+    componentProperties: () => {
+      return PropertiesPanel();
+    },
   }
 
   function onReady(event: DockviewReadyEvent) {
@@ -56,6 +60,19 @@ function App() {
       component: 'componentTree',
       title: 'Component Tree',
       position: { referenceGroup: leftGroup.id }
+    })
+
+    const rightGroup = api.addEdgeGroup('right', {
+        id: 'right-group',
+        initialSize: 300,
+        minimumSize: 180
+    })
+
+    api.addPanel({
+      id: 'component-properties',
+      component: 'componentProperties',
+      title: 'Component Properties',
+      position: { referenceGroup: rightGroup.id }
     })
   }
 

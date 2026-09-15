@@ -6,7 +6,7 @@ import {
 } from '@xyflow/react';
 import type {CSSProperties} from 'react';
 import LightSVG from '@assets/components/output/Light.svg?react';
-import type {CircuitComponent, CircuitComponentData} from "@/components/Component.ts";
+import type {CircuitComponent, CircuitComponentData} from "@/components/Component.tsx";
 
 type LightData = CircuitComponentData & {
     color?: string;

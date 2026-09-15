@@ -4,7 +4,7 @@ import {
     type Node
 } from '@xyflow/react';
 import NodeSVG from '@assets/components/input/Low.svg?react';
-import type {InputCircuitComponent} from "@/components/Component.ts";
+import type {InputCircuitComponent} from "@/components/Component.tsx";
 import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 
 export const Low: InputCircuitComponent = {

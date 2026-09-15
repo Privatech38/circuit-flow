@@ -1,6 +1,6 @@
 import {Handle, type Node, Position} from '@xyflow/react';
 import ClockSVG from '@assets/components/input/Clock.svg?react';
-import type {InputCircuitComponent, CircuitComponentData} from "@/components/Component.ts";
+import type {InputCircuitComponent, CircuitComponentData} from "@/components/Component.tsx";
 import {getNodeOutputState, setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 import {EventEmitter} from "eventemitter3";
 
