@@ -7,7 +7,7 @@ export default function ColorSelector(props: NodeProps<Node<CircuitComponentData
     const {updateNodeData} = useReactFlow();
     const data = props?.data as LightData | undefined;
     const color = data?.color || "red";
-    return <MuiColorInput value={color} onChange={(value) => {
+    return <MuiColorInput value={color} format={"hex"} onChange={(value) => {
         updateNodeData(props.id, {color: value});
     }}/>;
 }
