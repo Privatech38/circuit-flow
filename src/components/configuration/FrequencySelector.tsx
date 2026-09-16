@@ -7,7 +7,7 @@ export default function FrequencySelector(props: NodeProps<Node<CircuitComponent
     const {updateNodeData} = useReactFlow();
     const data = props?.data as ClockData | undefined;
     const frequency = data?.frequency || 1;
-    return <NumberSpinner min={0.000001} max={1000.0} size={"small"} defaultValue={frequency}
+    return <NumberSpinner min={0.000001} max={1000.0} size={"small"} value={frequency}
                           onValueChange={(value) => {
                               updateNodeData(props.id, {frequency: value});
                           }}/>;
