@@ -2,10 +2,9 @@ import {Handle, type Node, Position} from '@xyflow/react';
 import ClockSVG from '@assets/components/input/Clock.svg?react';
 import type {InputCircuitComponent, CircuitComponentData} from "@/components/Component.tsx";
 import {getNodeOutputState, setHandleOutputUpdate} from "@/simulation/WireManager.ts";
-import {EventEmitter} from "eventemitter3";
 import FrequencySelector from "@/components/configuration/FrequencySelector.tsx";
+import {componentUpdatedBus} from "@/components";
 
-export const clockUpdateBus = new EventEmitter();
 export type ClockData = CircuitComponentData & {
     frequency: number;
 }
@@ -95,7 +94,7 @@ export const Clock: InputCircuitComponent = {
         getClockState(node.id).startTime = Date.now();
         const current = getNodeOutputState(node).has("out");
         setHandleOutputUpdate(node, "out", !current);
-        clockUpdateBus.emit('stateChange');
+        componentUpdatedBus.emit('stateChange');
     },
 
     component: () => (
