@@ -1,11 +1,12 @@
 import {Handle, type Node, Position} from '@xyflow/react';
 import ClockSVG from '@assets/components/input/Clock.svg?react';
-import type {InputCircuitComponent, CircuitComponentProps} from "@/components/Component.ts";
+import type {InputCircuitComponent, CircuitComponentData} from "@/components/Component.tsx";
 import {getNodeOutputState, setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 import {EventEmitter} from "eventemitter3";
+import FrequencySelector from "@/components/configuration/FrequencySelector.tsx";
 
 export const clockUpdateBus = new EventEmitter();
-type ClockProps = CircuitComponentProps & {
+export type ClockData = CircuitComponentData & {
     frequency: number;
 }
 
@@ -35,12 +36,24 @@ export const Clock: InputCircuitComponent = {
     initialize: (node: Node) => {
         if (!node.type && node.type !== "clock")
             return;
-        const data = node.data as ClockProps;
+        const data = node.data as ClockData;
         const frequency = data.frequency || 1; // Default frequency of 1 Hz
         const interval = 1000 / frequency; // Convert frequency to interval in milliseconds
         getClockState(node.id).intervalID = window.setInterval(() => {
             Clock.evaluate(node);
         }, interval);
+    },
+
+    updateData: (node: Node) => {
+        // Only restart the ticking interval if the clock is currently running
+        // (not stopped or paused) - a paused clock will pick up the new
+        // frequency on resume, which already re-reads node.data fresh.
+        const state = clockStates.get(node.id);
+        if (state?.intervalID) {
+            window.clearInterval(state.intervalID);
+            state.intervalID = undefined;
+            Clock.initialize!(node);
+        }
     },
 
     remove: (node: Node) => {
@@ -67,7 +80,7 @@ export const Clock: InputCircuitComponent = {
     resume: (node: Node) => {
         if (!node.type && node.type !== "clock")
             return;
-        const data = node.data as ClockProps;
+        const data = node.data as ClockData;
         const frequency = data.frequency || 1;
         const interval = 1000 / frequency;
         const passedTime = clockStates.get(node.id)?.pausedTime || Number.MAX_SAFE_INTEGER;
@@ -92,5 +105,12 @@ export const Clock: InputCircuitComponent = {
             {/* Output handle */}
             <Handle type="source" position={Position.Right} id="out"/>
         </div>
-    )
+    ),
+
+    dataConfigurators: [
+        {
+            displayName: "Frequency (Hz)",
+            component: FrequencySelector
+        }
+    ]
 }

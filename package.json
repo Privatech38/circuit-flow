@@ -22,12 +22,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@base-ui/react": "^1.8.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.4.0",
+    "@mui/material": "^9.4.0",
     "@neodrag/react": "^2.3.1",
     "@xyflow/react": "^12.11.5",
     "dockview-react": "^8.2.0",
     "eventemitter3": "^5.0.4",
     "flexlayout-react": "^0.10.7",
     "material-symbols": "^0.47.0",
+    "mui-color-input": "^9.0.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "yocto-queue": "^1.2.2"

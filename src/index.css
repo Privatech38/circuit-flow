@@ -115,7 +115,7 @@ code {
 }
 
 .light-bulb.signal-high {
-  fill: #f00;
+  fill: var(--light-color, #f00);
 }
 
 .component-shape,
