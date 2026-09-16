@@ -4,6 +4,7 @@ import {LabelField} from "@/components/configuration/LabelField.tsx";
 
 export interface CircuitComponent {
     initialize?: (node: Node) => void;
+    updateData?: (node: Node) => void;
     remove?: (node: Node) => void;
     pause?: (node: Node) => void;
     resume?: (node: Node) => void;

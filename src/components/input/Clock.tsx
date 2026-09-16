@@ -44,6 +44,18 @@ export const Clock: InputCircuitComponent = {
         }, interval);
     },
 
+    updateData: (node: Node) => {
+        // Only restart the ticking interval if the clock is currently running
+        // (not stopped or paused) - a paused clock will pick up the new
+        // frequency on resume, which already re-reads node.data fresh.
+        const state = clockStates.get(node.id);
+        if (state?.intervalID) {
+            window.clearInterval(state.intervalID);
+            state.intervalID = undefined;
+            Clock.initialize!(node);
+        }
+    },
+
     remove: (node: Node) => {
         const state = clockStates.get(node.id);
         if (state?.intervalID) {

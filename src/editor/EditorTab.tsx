@@ -83,6 +83,15 @@ function EditorTab() {
                     }
                 }
             });
+            changes.filter((change) => change.type === "replace").forEach((change) => {
+                const node = change.item;
+                if (node.type && node.type in componentRegistry) {
+                    const evaluator = componentRegistry[node.type as ComponentType];
+                    if (evaluator.updateData) {
+                        evaluator.updateData(node);
+                    }
+                }
+            });
         },
         [setNodes],
     );
