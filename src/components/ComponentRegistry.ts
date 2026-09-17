@@ -14,6 +14,7 @@ import {Light} from "@/components/output/Light.tsx";
 import {Multiplexer} from "@/components/multiplexer/Multiplexer.tsx";
 import {Demultiplexer} from "@/components/multiplexer/Demultiplexer.tsx";
 import {latches} from "@/components/latches";
+import {Button} from "@/components/input/Button.tsx";
 
 export const componentRegistry = {
     // Gates
@@ -30,6 +31,7 @@ export const componentRegistry = {
     high: High,
     low: Low,
     switch: Switch,
+    button: Button,
     // Output
     light: Light,
     // Multiplexer
