@@ -3,7 +3,7 @@ import {inputTypes} from "@/components/input";
 import type {Node} from "@xyflow/react";
 import {enqueueTriggeredNode, EventQueue} from "@/simulation/EventQueue.ts";
 import {componentRegistry, type ComponentType} from "@/components/ComponentRegistry.ts";
-import {clockUpdateBus} from "@/components/input/Clock.tsx";
+import {componentUpdatedBus} from "@/components";
 import {EventEmitter} from "eventemitter3";
 import type {CircuitComponent} from "@/components/Component.ts";
 import {clearEdgeStyles, clearNodeOutputStates} from "@/simulation/WireManager.ts";
@@ -39,8 +39,9 @@ function getInputNodes(): Node[] {
     return getSimulationNodes().filter(node => node.type && node.type in inputTypes);
 }
 
-clockUpdateBus.on('stateChange', () => {
-    stepSimulation();
+componentUpdatedBus.on('stateChange', () => {
+    if (getSimulationState() === 'running')
+        stepSimulation();
 })
 
 export function startSimulation() {
@@ -57,6 +58,9 @@ export function startSimulation() {
 }
 
 export function stepSimulation() {
+    if (EventQueue.size === 0)
+        return;
+
     const {node, inputSnapshot, targetHandle} = EventQueue.dequeue()!;
 
     if (!node || !node.type)
@@ -66,8 +70,7 @@ export function stepSimulation() {
     if (evaluator.evaluate)
         evaluator.evaluate(node, inputSnapshot, targetHandle);
 
-    if (EventQueue.size > 0)
-        stepSimulation();
+    stepSimulation();
 }
 
 export function stopSimulation() {

@@ -5,6 +5,8 @@ import {useDraggable} from '@neodrag/react';
 import ClockSVG from '@assets/components/input/Clock.svg?react';
 import HighSVG from '@assets/components/input/High.svg?react';
 import LowSVG from '@assets/components/input/Low.svg?react';
+import ButtonSVG from '@assets/components/input/Button.svg?react';
+import SwitchSVG from '@assets/components/input/Switch.svg?react';
 import LightSVG from '@assets/components/output/Light.svg?react';
 import AndGateSvg from '../assets/components/gates/AndGate.svg?react';
 import OrGateSvg from '../assets/components/gates/OrGate.svg?react';
@@ -63,6 +65,8 @@ export default function ComponentTree() {
                 <ComponentItem componentID={Input.CLOCK} label={"Clock"} icon={ClockSVG} onDrop={handleNodeDrop}/>
                 <ComponentItem componentID={Input.HIGH} label={"High"} icon={HighSVG} onDrop={handleNodeDrop}/>
                 <ComponentItem componentID={Input.LOW} label={"Low"} icon={LowSVG} onDrop={handleNodeDrop}/>
+                <ComponentItem componentID={Input.BUTTON} label={"Button"} icon={ButtonSVG} onDrop={handleNodeDrop}/>
+                <ComponentItem componentID={Input.SWITCH} label={"Switch"} icon={SwitchSVG} onDrop={handleNodeDrop}/>
             </ComponentCategory>
             <ComponentCategory label={"Outputs"}>
                 <ComponentItem componentID={Output.LIGHT} label={"Light"} icon={LightSVG} onDrop={handleNodeDrop}/>
