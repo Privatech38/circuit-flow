@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Property editor for circuit components
+- Button and switch input components
 
 ## [0.2.0] - 2026-09-14
 
