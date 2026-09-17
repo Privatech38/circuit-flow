@@ -2,11 +2,13 @@ import {Multiplexer} from "@/components/multiplexer/Multiplexer.tsx";
 import {Demultiplexer} from "@/components/multiplexer/Demultiplexer.tsx";
 import type {CircuitComponentData} from "@/components/Component.ts";
 import {Encoder} from "@/components/multiplexer/Encoder.tsx";
+import {Decoder} from "@/components/multiplexer/Decoder.tsx";
 
 export const MultiplexerType = {
     MUX: "multiplexer",
     DMUX: "demultiplexer",
     ENCODER: "encoder",
+    DECODER: "decoder",
 } as const;
 
 export type MultiplexerType = typeof MultiplexerType[keyof typeof MultiplexerType];
@@ -15,6 +17,7 @@ export const multiplexerTypes = {
     multiplexer: Multiplexer.component,
     demultiplexer: Demultiplexer.component,
     encoder: Encoder.component,
+    decoder: Decoder.component,
 }
 
 // Common logic for multiplexer components

@@ -85,6 +85,7 @@ export default function ComponentTree() {
                 <ComponentItem componentID={MultiplexerType.MUX} label={"MUX"} icon={MultiplexerSVG} onDrop={handleNodeDrop}/>
                 <ComponentItem componentID={MultiplexerType.DMUX} label={"DMUX"} icon={MultiplexerSVG} flip onDrop={handleNodeDrop}/>
                 <ComponentItem componentID={MultiplexerType.ENCODER} label={"Encoder"} icon={MultiplexerSVG} onDrop={handleNodeDrop}/>
+                <ComponentItem componentID={MultiplexerType.DECODER} label={"Decoder"} icon={MultiplexerSVG} flip onDrop={handleNodeDrop}/>
             </ComponentCategory>
             <ComponentCategory label={"Latches"}>
                 <ComponentItem componentID={Latch.SR_LATCH} label={"SR Latch"} icon={SRLatchSVG} onDrop={handleNodeDrop}/>

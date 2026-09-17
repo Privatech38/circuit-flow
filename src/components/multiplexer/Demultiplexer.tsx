@@ -18,7 +18,7 @@ function DemultiplexerNode(props?: NodeProps) {
     const nodeData = props?.data as MultiplexerProps | undefined;
 
     const selectBits = clampSelectBits(nodeData?.selectBits);
-    const numInputs = 2 ** selectBits;
+    const numOutputs = 2 ** selectBits;
 
     const {
         width,
@@ -29,7 +29,7 @@ function DemultiplexerNode(props?: NodeProps) {
         horizontalInputPercentage,
         inputPaddingPercentage,
         inputPercentage,
-    } = computeMuxLayout(selectBits, numInputs);
+    } = computeMuxLayout(selectBits, numOutputs);
 
     return (
         <div style={{position: 'relative', width: width, height}}>
@@ -66,13 +66,13 @@ function DemultiplexerNode(props?: NodeProps) {
             })}
 
             {/* Data output handles */}
-            {Array.from({length: numInputs}, (_, i) => (
+            {Array.from({length: numOutputs}, (_, i) => (
                 <Handle
                     key={`o${i}`}
                     type="source"
                     position={Position.Right}
                     id={`o${i}`}
-                    style={{top: `${(i / (numInputs - 1)) * inputPercentage + inputPaddingPercentage}%`}}
+                    style={{top: `${(i / (numOutputs - 1)) * inputPercentage + inputPaddingPercentage}%`}}
                 />
             ))}
         </div>
