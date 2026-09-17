@@ -11,22 +11,32 @@ import ButtonSVG from '@assets/components/input/Button.svg?react';
 import type {CircuitComponentData, InputCircuitComponent} from "@/components/Component.tsx";
 import {setHandleOutputUpdate} from "@/simulation/WireManager.ts";
 import {componentUpdatedBus} from "@/components";
+import {EventQueue} from "@/simulation/EventQueue.ts";
+
+const states = new Map<Node, boolean>
 
 export const Switch: InputCircuitComponent = {
 
-    evaluate: () => {},
+    initialize: (node: Node) => {
+        Switch.evaluate(node);
+    },
+
+    evaluate: (node: Node) => {
+        setHandleOutputUpdate(node, "out", states.has(node) && states.get(node)!);
+    },
 
     component: (props: NodeProps<Node<CircuitComponentData>>) => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const {getNode} = useReactFlow();
 
-        const handleChange = (_: ChangeEvent<HTMLInputElement>, checked: boolean) => {
+        const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
             const node = getNode(props.id);
             if (!node) {
                 console.error(`Node with id ${props.id} not found in React Flow instance.`);
                 return;
             }
-            setHandleOutputUpdate(node, "out", checked);
+            states.set(node, event.target.checked);
+            EventQueue.enqueue({node: node, inputSnapshot: new Set(), targetHandle: ""})
             componentUpdatedBus.emit('stateChange');
         };
 

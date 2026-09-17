@@ -40,7 +40,8 @@ function getInputNodes(): Node[] {
 }
 
 componentUpdatedBus.on('stateChange', () => {
-    stepSimulation();
+    if (getSimulationState() === 'running')
+        stepSimulation();
 })
 
 export function startSimulation() {
