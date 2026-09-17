@@ -15,6 +15,7 @@ import {Multiplexer} from "@/components/multiplexer/Multiplexer.tsx";
 import {Demultiplexer} from "@/components/multiplexer/Demultiplexer.tsx";
 import {latches} from "@/components/latches";
 import {Button} from "@/components/input/Button.tsx";
+import {Encoder} from "@/components/multiplexer/Encoder.tsx";
 
 export const componentRegistry = {
     // Gates
@@ -37,6 +38,7 @@ export const componentRegistry = {
     // Multiplexer
     multiplexer: Multiplexer,
     demultiplexer: Demultiplexer,
+    encoder: Encoder,
     // Latches
     ...latches
 }

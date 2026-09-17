@@ -1,10 +1,12 @@
 import {Multiplexer} from "@/components/multiplexer/Multiplexer.tsx";
 import {Demultiplexer} from "@/components/multiplexer/Demultiplexer.tsx";
-import type {CircuitComponentProps} from "@/components/Component.ts";
+import type {CircuitComponentData} from "@/components/Component.ts";
+import {Encoder} from "@/components/multiplexer/Encoder.tsx";
 
 export const MultiplexerType = {
     MUX: "multiplexer",
     DMUX: "demultiplexer",
+    ENCODER: "encoder",
 } as const;
 
 export type MultiplexerType = typeof MultiplexerType[keyof typeof MultiplexerType];
@@ -12,17 +14,28 @@ export type MultiplexerType = typeof MultiplexerType[keyof typeof MultiplexerTyp
 export const multiplexerTypes = {
     multiplexer: Multiplexer.component,
     demultiplexer: Demultiplexer.component,
+    encoder: Encoder.component,
 }
 
 // Common logic for multiplexer components
 
-export type MultiplexerProps = CircuitComponentProps & {
+export type MultiplexerProps = CircuitComponentData & {
     selectBits: number;
 }
 
 export const MIN_SELECT_BITS = 1;
 export const MAX_SELECT_BITS = 4;
 export const DEFAULT_SELECT_BITS = 2;
+
+// Common logic for encoders
+export type EncoderData = CircuitComponentData & {
+    slots: number;
+}
+
+export const MIN_ENCODER_SLOTS = 1;
+export const MAX_ENCODER_SLOTS = 8;
+export const DEFAULT_ENCODER_SLOTS = 4;
+
 
 export const ANGLE = (20 / 180) * Math.PI; // 20 degrees in radians
 export const INPUT_SPACING = 16;
