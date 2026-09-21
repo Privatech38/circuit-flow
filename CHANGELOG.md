@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Property editor for circuit components
 - Button and switch input components
+- Encoder and decoder components
 
 ## [0.2.0] - 2026-09-14
 
