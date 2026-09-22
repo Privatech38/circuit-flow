@@ -1,4 +1,4 @@
-import {useState, useCallback} from 'react'
+import {useState, useCallback, useEffect} from 'react'
 import {
     ReactFlow,
     applyNodeChanges,
@@ -16,13 +16,18 @@ import {LogicGate, logicGateTypes} from "@/components/gates";
 import {Input, inputTypes} from "@/components/input";
 import {Output, outputTypes} from "@/components/output";
 import {multiplexerTypes} from "@/components/multiplexer";
-import {syncSimulationEdges, syncSimulationNodes} from "@/simulation/ReactFlowUtils.ts";
+import {getSimulationEdges, getSimulationNodes, syncSimulationEdges, syncSimulationNodes} from "@/simulation/ReactFlowUtils.ts";
 import {getNodeOutputState, updateEdgeStyle} from "@/simulation/WireManager.ts";
 import {componentRegistry, type ComponentType} from "@/components/ComponentRegistry.ts";
 import {PoweredEdge} from "@/editor/PoweredEdge.tsx";
 import {enqueueTriggeredNode} from "@/simulation/EventQueue.ts";
 import {getSimulationState, stepSimulation} from "@/simulation/SimulationManager.ts";
 import {latchTypes} from "@/components/latches";
+import {
+    graphCommandBus,
+    type AddNodeParams,
+    type MoveNodeParams,
+} from "@/simulation/GraphController.ts";
 
 const nodeTypes = {
     ...logicGateTypes,
@@ -63,7 +68,7 @@ function EditorTab() {
     syncSimulationNodes(nodes);
     syncSimulationEdges(edges);
 
-    const {addEdges, getNode} = useReactFlow();
+    const {addEdges, getNode, setNodes: setFlowNodes, deleteElements} = useReactFlow();
 
     const onNodesChange = useCallback(
         (changes: NodeChange<Node>[]) => {
@@ -156,6 +161,88 @@ function EditorTab() {
         };
         addEdges(newEdge);
     }
+
+    // External control surface (the MCP bridge's WS client) for mutating the graph
+    // from outside React. EditorTab is the only place that owns node/edge state, so
+    // it's the sole subscriber; requests resolve/reject the promise the caller awaits.
+    useEffect(() => {
+        const onAddConnection = (connection: Connection, resolve: (edge: Edge) => void, reject: (err: Error) => void) => {
+            const knownNodeIds = new Set(getSimulationNodes().map((node) => node.id));
+            if (!connection.source || !knownNodeIds.has(connection.source)) {
+                reject(new Error(`Unknown source node: ${connection.source}`));
+                return;
+            }
+            if (!connection.target || !knownNodeIds.has(connection.target)) {
+                reject(new Error(`Unknown target node: ${connection.target}`));
+                return;
+            }
+            const newEdge: Edge = {
+                id: getEdgeId(connection),
+                ...connection,
+                type: 'powered-edge',
+            };
+            addEdges(newEdge);
+            resolve(newEdge);
+        };
+
+        const onRemoveConnection = (edgeId: string, resolve: (removed: boolean) => void, reject: (err: Error) => void) => {
+            const edge = getSimulationEdges().find((e) => e.id === edgeId);
+            if (!edge) {
+                reject(new Error(`Unknown edge: ${edgeId}`));
+                return;
+            }
+            deleteElements({edges: [{id: edgeId}]}).then(() => resolve(true), reject);
+        };
+
+        const onAddNode = (params: AddNodeParams, resolve: (node: Node) => void, reject: (err: Error) => void) => {
+            if (!(params.type in componentRegistry)) {
+                reject(new Error(`Unknown component type: ${params.type}. Valid types: ${Object.keys(componentRegistry).join(', ')}`));
+                return;
+            }
+            const newNode: Node = {
+                id: crypto.randomUUID(),
+                type: params.type,
+                position: params.position,
+                data: params.data ?? {},
+            };
+            setFlowNodes((nds) => nds.concat(newNode));
+            resolve(newNode);
+        };
+
+        const onMoveNode = (params: MoveNodeParams, resolve: (node: Node) => void, reject: (err: Error) => void) => {
+            const existing = getSimulationNodes().find((node) => node.id === params.nodeId);
+            if (!existing) {
+                reject(new Error(`Unknown node: ${params.nodeId}`));
+                return;
+            }
+            const updated: Node = {...existing, position: params.position};
+            setNodes((nds) => nds.map((node) => node.id === params.nodeId ? updated : node));
+            resolve(updated);
+        };
+
+        const onRemoveNode = (nodeId: string, resolve: (removed: boolean) => void, reject: (err: Error) => void) => {
+            const existing = getSimulationNodes().find((node) => node.id === nodeId);
+            if (!existing) {
+                reject(new Error(`Unknown node: ${nodeId}`));
+                return;
+            }
+            deleteElements({nodes: [{id: nodeId}]}).then(() => resolve(true), reject);
+        };
+
+        graphCommandBus.on('addConnection', onAddConnection);
+        graphCommandBus.on('removeConnection', onRemoveConnection);
+        graphCommandBus.on('addNode', onAddNode);
+        graphCommandBus.on('moveNode', onMoveNode);
+        graphCommandBus.on('removeNode', onRemoveNode);
+
+        return () => {
+            graphCommandBus.off('addConnection', onAddConnection);
+            graphCommandBus.off('removeConnection', onRemoveConnection);
+            graphCommandBus.off('addNode', onAddNode);
+            graphCommandBus.off('moveNode', onMoveNode);
+            graphCommandBus.off('removeNode', onRemoveNode);
+        };
+    }, [addEdges, deleteElements, setFlowNodes, setNodes]);
 
     return (
         <div style={{width: '100%', height: '100%'}}>

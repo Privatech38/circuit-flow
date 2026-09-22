@@ -1,9 +1,10 @@
 import 'dockview-react/dist/styles/dockview.css';
 import './App.css'
-import {useSyncExternalStore} from "react";
+import {useEffect, useSyncExternalStore} from "react";
 import EditorTab from "./editor/EditorTab.tsx";
 import ComponentTree from "./components/ComponentTree.tsx";
 import Toolbar from "@/toolbar/Toolbar.tsx";
+import {startMcpBridgeClient} from "@/bridge/wsClient.ts";
 import {
   type DockviewApi,
   DockviewReact,
@@ -28,6 +29,8 @@ function getIsDarkScheme(): boolean {
 
 function App() {
   const isDark = useSyncExternalStore(subscribeToColorScheme, getIsDarkScheme);
+
+  useEffect(() => startMcpBridgeClient(), []);
 
   const components: Record<string, React.FunctionComponent<IDockviewPanelProps>> = {
     editor: () => {

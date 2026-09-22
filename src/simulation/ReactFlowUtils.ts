@@ -1,5 +1,13 @@
 import {type Edge, type Handle, type Node} from '@xyflow/react'
 import {getWireState} from "@/simulation/WireManager.ts";
+import {EventEmitter} from "eventemitter3";
+
+/**
+ * Fires 'changed' with the latest {nodes, edges} whenever the simulation's graph
+ * mirror is updated, so external listeners (the MCP bridge's WS client) can push
+ * live snapshots without polling.
+ */
+export const graphBus = new EventEmitter();
 
 /*
  * React Flow's internal store only syncs with the controlled `nodes`/`edges` props via a
@@ -14,10 +22,12 @@ let simulationEdges: Edge[] = [];
 
 export function syncSimulationNodes(nodes: Node[]) {
     simulationNodes = nodes;
+    graphBus.emit('changed', {nodes: simulationNodes, edges: simulationEdges});
 }
 
 export function syncSimulationEdges(edges: Edge[]) {
     simulationEdges = edges;
+    graphBus.emit('changed', {nodes: simulationNodes, edges: simulationEdges});
 }
 
 export function getSimulationNodes(): Node[] {
