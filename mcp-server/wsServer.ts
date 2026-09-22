@@ -1,4 +1,3 @@
-import {WebSocket, WebSocketServer} from "ws";
 import {randomUUID} from "node:crypto";
 
 const DEFAULT_PORT = 8787;
@@ -10,48 +9,56 @@ type PendingCall = {
     timer: ReturnType<typeof setTimeout>;
 };
 
+type AppSocket = Bun.ServerWebSocket<undefined>;
+
 /*
  * Local-only WS server the circuit-flow browser tab connects out to. Bound to
  * 127.0.0.1 and origin-checked so no other localhost tab/site can attach and
  * issue commands. Tracks a single connected app instance and exposes callApp()
  * as the bridge between MCP tool calls and the live app's WS request/response
- * protocol (see src/bridge/wsClient.ts for the app-side counterpart).
+ * protocol (see src/bridge/wsClient.ts for the app-side counterpart). Uses
+ * Bun's built-in WebSocket server (no `ws` dependency needed).
  */
 export class BridgeServer {
-    private readonly wss: WebSocketServer;
-    private appSocket: WebSocket | null = null;
+    private readonly server: Bun.Server<undefined>;
+    private appSocket: AppSocket | null = null;
     private readonly pending = new Map<string, PendingCall>();
 
     constructor(port = DEFAULT_PORT, allowedOrigins = DEFAULT_ALLOWED_ORIGINS) {
-        this.wss = new WebSocketServer({
-            host: "127.0.0.1",
+        this.server = Bun.serve({
+            hostname: "127.0.0.1",
             port,
-            verifyClient: ({origin}, callback) => {
-                if (!origin || allowedOrigins.includes(origin)) {
-                    callback(true);
-                } else {
-                    callback(false, 403, "Origin not allowed");
+            fetch: (req, server) => {
+                const origin = req.headers.get("origin");
+                if (origin && !allowedOrigins.includes(origin)) {
+                    return new Response("Origin not allowed", {status: 403});
                 }
+                if (server.upgrade(req)) {
+                    return;
+                }
+                return new Response("Upgrade failed", {status: 500});
+            },
+            websocket: {
+                open: (socket) => this.handleOpen(socket as AppSocket),
+                message: (_socket, data) => this.handleMessage(data.toString()),
+                close: (socket) => this.handleClose(socket as AppSocket),
             },
         });
-
-        this.wss.on("connection", (socket) => this.handleConnection(socket));
     }
 
-    private handleConnection(socket: WebSocket) {
+    private handleOpen(socket: AppSocket) {
         // Single-app model: a new connection (e.g. a page reload) replaces the old one.
         if (this.appSocket && this.appSocket !== socket) {
             this.appSocket.close();
         }
         this.appSocket = socket;
+    }
 
-        socket.on("message", (data) => this.handleMessage(data.toString()));
-        socket.on("close", () => {
-            if (this.appSocket === socket) {
-                this.appSocket = null;
-                this.rejectAllPending(new Error("circuit-flow app disconnected"));
-            }
-        });
+    private handleClose(socket: AppSocket) {
+        if (this.appSocket === socket) {
+            this.appSocket = null;
+            this.rejectAllPending(new Error("circuit-flow app disconnected"));
+        }
     }
 
     private handleMessage(raw: string) {
@@ -104,5 +111,9 @@ export class BridgeServer {
             this.pending.set(id, {resolve, reject, timer});
             this.appSocket!.send(JSON.stringify({kind: "request", id, method, params}));
         });
+    }
+
+    stop() {
+        this.server.stop();
     }
 }
